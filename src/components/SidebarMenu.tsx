@@ -18,6 +18,7 @@ import { OnlineTutoringModal } from './tutoring/OnlineTutoringModal';
 import { SidebarThemeSelector, ThemeToggle } from './ThemeToggle';
 import { subscribePendingTeacherRequests } from '@/services/teacherRequestService';
 import { BrandName } from '@/components/BrandName';
+import { ExploreSections } from '@/components/nav/ExploreSections';
 
 export function SidebarMenu() {
     const { user, profile, signOut, isAdmin } = useAuth();
@@ -25,6 +26,7 @@ export function SidebarMenu() {
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [isTutoringModalOpen, setIsTutoringModalOpen] = useState(false);
     const [pendingTeacherCount, setPendingTeacherCount] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
 
     // Admin pending teacher requests notification
     useEffect(() => {
@@ -68,7 +70,7 @@ export function SidebarMenu() {
 
     return (
         <>
-            <Sheet>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                     <Button
                         variant="ghost"
@@ -161,6 +163,20 @@ export function SidebarMenu() {
                                     </Button>
                                 </div>
                             )}
+                        </div>
+
+                        {/* Tananyagok: ugyanaz, mint a fejléc menüje */}
+                        <div>
+                            <p className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1 px-1">Tananyagok</p>
+                            <div className="px-1">
+                                <ExploreSections
+                                    variant="accordion"
+                                    onNavigate={(path) => {
+                                        setIsOpen(false);
+                                        navigate(path);
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         {/* Navigation links */}

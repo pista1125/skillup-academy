@@ -14,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { AuthModal } from './AuthModal';
-import { LogOut, Settings, LogIn, UserCircle, Target, Shield } from 'lucide-react';
+import { LogOut, Settings, LogIn, UserCircle, Target, Shield, CreditCard } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { subscribePendingTeacherRequests } from '@/services/teacherRequestService';
 
@@ -176,6 +176,14 @@ export function UserMenu() {
                         >
                             <UserCircle className="w-4 h-4 mr-3 text-slate-400 group-hover:text-primary" />
                             <span className="font-bold text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary">Profilom</span>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                            onSelect={() => navigate('/profil?tab=subscriptions')}
+                            className="rounded-xl p-3 focus:bg-primary/5 cursor-pointer group transition-all"
+                        >
+                            <CreditCard className="w-4 h-4 mr-3 text-slate-400 group-hover:text-primary" />
+                            <span className="font-bold text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary">Előfizetéseim</span>
                         </DropdownMenuItem>
 
                         {isAdmin && (

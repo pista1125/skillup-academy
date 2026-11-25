@@ -1,4 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { TOOL_CATEGORY_PARAM } from '@/data/navCatalog';
 import {
   Search,
   Sparkles,
@@ -527,6 +529,20 @@ interface ToolsCatalogProps {
 export function ToolsCatalog({ onSelectTool }: ToolsCatalogProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory | 'all'>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Mélylink a fejléc „Tananyagok” menüjéből: /eszkozok?kategoria=sec-algebra.
+  // Alkalmazás után levesszük a paramétert, hogy ugyanaz a link újra is működjön.
+  useEffect(() => {
+    const cat = searchParams.get(TOOL_CATEGORY_PARAM);
+    if (!cat) return;
+    if (CATEGORIES_CONFIG.some((c) => c.id === cat)) {
+      setSelectedCategory(cat as ToolCategory | 'all');
+    }
+    const next = new URLSearchParams(searchParams);
+    next.delete(TOOL_CATEGORY_PARAM);
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
   const [selectedGrade, setSelectedGrade] = useState<GradeGroup>('all');
   const [onlyPdf, setOnlyPdf] = useState(false);
   const [onlyFavorites, setOnlyFavorites] = useState(false);

@@ -7,6 +7,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { subscribeStudentCompetencySubmissions } from '@/services/competencySubmissionService';
 import { CONTENT_AREAS, THINKING_LEVELS } from './taxonomy';
 import { ALL_TASKS } from './loader';
+import { useSearchParams } from 'react-router-dom';
+import {
+  COMPETENCY_AREA_PARAM,
+  COMPETENCY_TASK_PARAM,
+  COMPETENCY_TEST_PARAM,
+  COMPETENCY_VIEW_PARAM,
+  COMPETENCY_VIEWS,
+} from '@/data/navCatalog';
 import '@/styles/competency-matrix.css';
 import 'katex/dist/katex.min.css';
 
@@ -22,6 +30,43 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
   const [contentFilter, setContentFilter] = useState<string | null>(null);
   const [thinkingFilter, setThinkingFilter] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Egy konkrét feladatra ugrás (a keresőből): a szűrők törlése után a feladat indexére állunk.
+  const [pendingTaskId, setPendingTaskId] = useState<string | null>(null);
+
+  // Mélylinkek a fejléc menüjéből és keresőjéből:
+  // ?terulet=M, ?nezet=probameresek[&meres=PM-01]|eredmenyeim, ?feladat=A-A-01.
+  // Alkalmazás után levesszük a paramétereket, hogy ugyanaz a link újra is működjön.
+  useEffect(() => {
+    const area = searchParams.get(COMPETENCY_AREA_PARAM);
+    const nezet = searchParams.get(COMPETENCY_VIEW_PARAM);
+    const taskId = searchParams.get(COMPETENCY_TASK_PARAM);
+    const testId = searchParams.get(COMPETENCY_TEST_PARAM);
+    if (!area && !nezet && !taskId) return;
+    const task = taskId ? tasks.find((t) => t.id === taskId) : undefined;
+    if (taskId && task) {
+      // Egyedi feladat csak aktív szűrővel jelenik meg: a feladat saját tartalmi területére szűrünk.
+      setView('browse');
+      setContentFilter(task.contentArea);
+      setThinkingFilter(null);
+      setSearch('');
+      setPendingTaskId(taskId);
+    } else if (area && CONTENT_AREAS.some((a) => a.id === area)) {
+      setView('browse');
+      setThinkingFilter(null);
+      setSearch('');
+      setContentFilter(area);
+    } else if (nezet === COMPETENCY_VIEWS.practice) {
+      setSelectedPracticeTestId(testId);
+      setView('practice');
+    } else if (nezet === COMPETENCY_VIEWS.myResults) {
+      setView('my-results');
+    }
+    const next = new URLSearchParams(searchParams);
+    [COMPETENCY_AREA_PARAM, COMPETENCY_VIEW_PARAM, COMPETENCY_TASK_PARAM, COMPETENCY_TEST_PARAM].forEach((p) => next.delete(p));
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams, tasks]);
 
   // Subscribe to student's own submissions count in real time
   useEffect(() => {
@@ -65,6 +110,14 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
   useEffect(() => {
     setActiveTaskIndex(0);
   }, [contentFilter, thinkingFilter, search]);
+
+  // A fenti nullázás UTÁN fut (ugyanabban a commitban), így a mélylinkelt feladat marad kiválasztva.
+  useEffect(() => {
+    if (!pendingTaskId) return;
+    const idx = filtered.findIndex((t) => t.id === pendingTaskId);
+    if (idx >= 0) setActiveTaskIndex(idx);
+    setPendingTaskId(null);
+  }, [pendingTaskId, filtered]);
 
   // Fullscreen toggle handler
   const toggleFullscreen = () => {
@@ -289,8 +342,9 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
             }}
           />
         ) : view === 'practice' ? (
-          <PracticeTests 
-            contentAreas={contentAreas} 
+          <PracticeTests
+            key={selectedPracticeTestId ?? 'list'}
+            contentAreas={contentAreas}
             thinkingLevels={thinkingLevels} 
             isFullscreen={isFullscreen}
             toggleFullscreen={toggleFullscreen}

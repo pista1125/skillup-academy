@@ -5,6 +5,8 @@ import { hu } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { ExploreMenu } from '@/components/nav/ExploreMenu';
+import { HeaderSearch } from '@/components/search/HeaderSearch';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { useAuth } from '@/contexts/AuthContext';
 import { BookingCalendar } from '@/components/tutoring/BookingCalendar';
@@ -187,6 +189,8 @@ export default function TutoringPage() {
               </div>
 
               <div className="flex items-center gap-1 sm:gap-2">
+                <HeaderSearch />
+                <ExploreMenu />
                 <UserMenu />
                 <Button
                   variant="default"

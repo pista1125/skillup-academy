@@ -59,7 +59,8 @@ import {
 } from 'lucide-react';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { UserMenu } from '@/components/auth/UserMenu';
-import { mathTopics, MathTopic } from '@/data/mathTopics';
+import { ExploreMenu } from '@/components/nav/ExploreMenu';
+import { HeaderSearch } from '@/components/search/HeaderSearch';
 import {
   Dialog,
   DialogContent,
@@ -116,57 +117,8 @@ export default function ProfilePage() {
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
-  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'subscriptions' | 'settings' | 'admin-requests'>('personal');
+  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'subscriptions' | 'settings' | 'admin-requests' | 'admin-paywall'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Search bar state for header
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showResults, setShowResults] = useState(false);
-  const searchRef = useRef<HTMLDivElement>(null);
-
-  const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return [];
-    const q = searchQuery.toLowerCase();
-    return mathTopics.filter(t =>
-      t.title.toLowerCase().includes(q) ||
-      t.description.toLowerCase().includes(q)
-    );
-  }, [searchQuery]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowResults(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleTopicSelect = (topic: MathTopic) => {
-    setShowResults(false);
-    setSearchQuery('');
-    if (topic.id === 'materials') {
-      navigate('/?topic=materials');
-      return;
-    }
-    const g = topic.grades && topic.grades.length > 0 ? topic.grades[0] : null;
-    if (g) {
-      let gradeSlug = `${g}-osztaly`;
-      if (g === 'graduation') gradeSlug = 'erettsegi';
-      else if (g === 'admission') gradeSlug = 'felveteli';
-      else if (typeof g === 'string' && g.startsWith('high-')) gradeSlug = `${g.replace('high-', '')}-osztaly`;
-      navigate(`/${gradeSlug}/${topic.id}`);
-    } else {
-      navigate(`/?topic=${topic.id}`);
-    }
-  };
-
-  const handleSearchSubmit = () => {
-    if (!searchQuery.trim()) return;
-    setShowResults(false);
-    navigate(`/?search=${encodeURIComponent(searchQuery)}`);
-  };
 
   // Teacher request states
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
@@ -188,7 +140,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    if (tab && ['personal', 'classes', 'activity', 'subscriptions', 'settings', 'admin-requests'].includes(tab)) {
+    if (tab && ['personal', 'classes', 'activity', 'subscriptions', 'settings', 'admin-requests', 'admin-paywall'].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, [location.search]);
@@ -712,85 +664,9 @@ export default function ProfilePage() {
               </div>
 
               <div className="flex items-center gap-1 sm:gap-2">
-                {/* Search Bar */}
-                <div ref={searchRef} className="relative hidden lg:flex items-center group">
-                  <input
-                    type="text"
-                    placeholder="Keresés..."
-                    value={searchQuery}
-                    onFocus={() => setShowResults(true)}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setShowResults(true);
-                    }}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
-                    className="bg-white/10 hover:bg-white/20 focus:bg-white/20 border border-white/10 focus:border-white/30 rounded-xl py-2 pl-4 pr-10 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all w-40 md:w-56 backdrop-blur-md"
-                  />
-                  <div className="absolute right-1 flex items-center gap-1">
-                    {searchQuery && (
-                      <button
-                        onClick={() => {
-                          setSearchQuery('');
-                          setShowResults(false);
-                        }}
-                        className="p-1.5 rounded-lg hover:bg-white/10 text-white/50 hover:text-white transition-all"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleSearchSubmit()}
-                      className="p-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-all shadow-sm"
-                    >
-                      <Search className="w-4 h-4" />
-                    </button>
-                  </div>
+                <HeaderSearch />
 
-                  {/* Dropdown Results */}
-                  {showResults && searchQuery.trim() !== '' && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-white/20 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="max-h-[320px] overflow-y-auto p-2">
-                        {searchResults.length > 0 ? (
-                          searchResults.slice(0, 6).map(topic => (
-                            <button
-                              key={topic.id}
-                              onClick={() => handleTopicSelect(topic)}
-                              className="w-full flex items-center gap-3 p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl transition-all text-left group/item"
-                            >
-                              <div className="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
-                                {typeof topic.icon === 'string' ? (
-                                  topic.icon
-                                ) : (
-                                  <topic.icon className="w-6 h-6" />
-                                )}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="font-bold text-sm text-slate-800 dark:text-slate-100 truncate">{topic.title}</div>
-                                <div className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">{topic.description}</div>
-                              </div>
-                              <ChevronRight className="w-3 h-3 text-slate-300 group-hover/item:text-primary transition-colors" />
-                            </button>
-                          ))
-                        ) : (
-                          <div className="p-4 text-center">
-                            <div className="text-2xl mb-1">🔍</div>
-                            <p className="text-xs text-slate-400">Nincs találat a keresésre.</p>
-                          </div>
-                        )}
-
-                        {searchResults.length > 6 && (
-                          <button
-                            onClick={() => handleSearchSubmit()}
-                            className="w-full p-2 text-center text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-all"
-                          >
-                            Összes találat megtekintése ({searchResults.length})
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
+                <ExploreMenu />
                 <UserMenu />
                 <Button
                   variant="default"
@@ -960,8 +836,24 @@ export default function ProfilePage() {
                 )}
 
                 {isAdmin && (
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
+                    onClick={() => setActiveTab('admin-paywall')}
+                    className={cn(
+                      "w-full justify-start rounded-2xl py-3 px-4 font-bold text-sm transition-all",
+                      activeTab === 'admin-paywall'
+                        ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 shadow-2xs border border-indigo-100 dark:border-indigo-900"
+                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    )}
+                  >
+                    <Lock className="w-4 h-4 mr-3 text-indigo-500" />
+                    <span>Fizetőfal</span>
+                  </Button>
+                )}
+
+                {isAdmin && (
+                  <Button
+                    variant="ghost"
                     onClick={() => setActiveTab('admin-requests')}
                     className={cn(
                       "w-full justify-start rounded-2xl py-3 px-4 font-bold text-sm transition-all",
@@ -2298,11 +2190,16 @@ export default function ProfilePage() {
                 </div>
               )}
 
+              {/* ADMIN PAYWALL */}
+              {activeTab === 'admin-paywall' && isAdmin && (
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  <AdminPaywallPanel />
+                </div>
+              )}
+
               {/* TAB 5: ADMIN TEACHER REQUESTS */}
               {activeTab === 'admin-requests' && isAdmin && (
                 <div className="space-y-8 animate-in fade-in duration-300">
-                  <AdminPaywallPanel />
-
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
                     <div>
                       <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-1 flex items-center gap-2.5">
