@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@/components/ui/input-otp';
+import PinCodeInput from './PinCodeInput';
 import { Badge } from '@/components/ui/badge';
 import { 
   UserPlus, 
@@ -487,64 +487,25 @@ export default function ChessLobby({ onStartGame, onOpenTournament, initialTab =
                 </span>
               </div>
 
-              {/* OTP Code Input */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 bg-slate-50 dark:bg-slate-950/60 rounded-xl border border-slate-100 dark:border-slate-800 p-3">
-                <div className="flex justify-center">
-                  <InputOTP
-                    maxLength={6}
-                    value={searchCode}
-                    onChange={(val) => {
-                      setSearchCode(val);
-                      setSearchError(null);
-                      if (val.length === 6) {
-                        handleCodeSearch(val);
-                      }
-                    }}
-                    disabled={isSearching}
-                  >
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} className="w-9 h-10 text-base font-black font-mono bg-white dark:bg-slate-900 shadow-sm" />
-                      <InputOTPSlot index={1} className="w-9 h-10 text-base font-black font-mono bg-white dark:bg-slate-900 shadow-sm" />
-                      <InputOTPSlot index={2} className="w-9 h-10 text-base font-black font-mono bg-white dark:bg-slate-900 shadow-sm" />
-                    </InputOTPGroup>
-                    <InputOTPSeparator />
-                    <InputOTPGroup>
-                      <InputOTPSlot index={3} className="w-9 h-10 text-base font-black font-mono bg-white dark:bg-slate-900 shadow-sm" />
-                      <InputOTPSlot index={4} className="w-9 h-10 text-base font-black font-mono bg-white dark:bg-slate-900 shadow-sm" />
-                      <InputOTPSlot index={5} className="w-9 h-10 text-base font-black font-mono bg-white dark:bg-slate-900 shadow-sm" />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </div>
-
-                <div className="flex items-center gap-2 w-full sm:w-auto flex-1">
-                  <Button
-                    onClick={() => handleCodeSearch()}
-                    disabled={isSearching || searchCode.length !== 6}
-                    className="flex-1 h-10 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all active:scale-95"
-                  >
-                    {isSearching ? (
-                      <RefreshCw className="w-3.5 h-3.5 mr-1.5 animate-spin" />
-                    ) : (
-                      <Search className="w-3.5 h-3.5 mr-1.5" />
-                    )}
-                    Keresés
-                  </Button>
-                  {searchCode && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setSearchCode('');
-                        setFoundStudent(null);
-                        setSearchError(null);
-                      }}
-                      className="h-10 px-2 rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 text-xs"
-                    >
-                      Törlés
-                    </Button>
-                  )}
-                </div>
-              </div>
+              {/* 6-jegyű kód */}
+              <PinCodeInput
+                value={searchCode}
+                onChange={(val) => {
+                  setSearchCode(val);
+                  setSearchError(null);
+                }}
+                onSubmit={(val) => handleCodeSearch(val)}
+                busy={isSearching}
+                buttonLabel="Diáktárs keresése"
+                busyLabel="Keresés…"
+                buttonIcon={<Search className="w-4 h-4" />}
+                doneHint="A 6. számjegy után automatikusan keresünk."
+                onClear={() => {
+                  setSearchCode('');
+                  setFoundStudent(null);
+                  setSearchError(null);
+                }}
+              />
 
               {/* Error Message */}
               {searchError && (

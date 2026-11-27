@@ -3,36 +3,30 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-
-/** Különálló, nagy számjegy-dobozok a bajnoksági kódhoz. */
-const PIN_SLOT_CLASS =
-  'w-10 h-12 sm:w-12 sm:h-14 text-2xl sm:text-3xl font-black font-mono rounded-xl first:rounded-xl last:rounded-xl ' +
-  'border-2 first:border-l-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 ' +
-  'text-indigo-700 dark:text-indigo-300 shadow-sm';
-import { 
-  Trophy, 
-  Users, 
-  Crown, 
-  Plus, 
-  Play, 
-  Copy, 
-  Check, 
-  Bot, 
-  Trash2, 
-  LogOut, 
-  Sparkles, 
-  Timer, 
-  KeyRound, 
-  ShieldCheck, 
+import PinCodeInput from '../PinCodeInput';
+import {
+  Trophy,
+  Users,
+  Crown,
+  Plus,
+  Play,
+  Copy,
+  Check,
+  Bot,
+  Trash2,
+  LogOut,
+  Sparkles,
+  Timer,
+  KeyRound,
+  ShieldCheck,
   RefreshCw,
   HelpCircle,
   Clock
 } from 'lucide-react';
-import { 
-  ChessTournament, 
-  ChessTournamentService, 
-  TournamentParticipant 
+import {
+  ChessTournament,
+  ChessTournamentService,
+  TournamentParticipant
 } from '@/lib/chess/ChessTournamentService';
 import { TIME_PRESETS, formatTimeLimit } from '../ChessLobby';
 import { auth } from '@/lib/firebase';
@@ -543,6 +537,41 @@ export default function ChessTournamentLobby({
       {activeTab === 'join' && (
         <div className="grid lg:grid-cols-12 gap-5 items-start">
           <div className="lg:col-span-7 space-y-4">
+            {/* Bajnoksági kód beírása (elöl: csatlakozás) */}
+            <Card className="p-5 md:p-6 rounded-3xl border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-lg space-y-4">
+              <div className="space-y-1">
+                <h3 className="text-base md:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                  <KeyRound className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                  Add meg a 6-jegyű Bajnoksági Kódot!
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Kérd el a versenyvezetőtől vagy diáktársadtól a PIN kódot a belépéshez vagy visszatéréshez!
+                </p>
+              </div>
+
+              {/* 6-jegyű kód */}
+              <PinCodeInput
+                value={joinCode}
+                onChange={(val) => {
+                  setJoinCode(val);
+                  setJoinError(null);
+                }}
+                onSubmit={(val) => handleJoinByCode(val)}
+                busy={isJoining}
+                buttonLabel="Belépés a versenybe"
+                busyLabel="Belépés…"
+                buttonIcon={<KeyRound className="w-4 h-4" />}
+                doneHint="A 6. számjegy után automatikusan belépsz."
+              />
+
+              {joinError && (
+                <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+                  <HelpCircle className="w-4 h-4 shrink-0 text-rose-500" />
+                  <span>{joinError}</span>
+                </div>
+              )}
+            </Card>
+
             {/* My Ongoing Tournaments Section (if any) */}
             {myTournaments.length > 0 && (
               <Card className="p-4 rounded-3xl border-2 border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-amber-500/10 shadow-md space-y-3">
@@ -597,72 +626,6 @@ export default function ChessTournamentLobby({
                 </div>
               </Card>
             )}
-
-            <Card className="p-5 md:p-6 rounded-3xl border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-lg space-y-4">
-              <div className="space-y-1">
-                <h3 className="text-base md:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <KeyRound className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                  Add meg a 6-jegyű Bajnoksági Kódot!
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Kérd el a versenyvezetőtől vagy diáktársadtól a PIN kódot a belépéshez vagy visszatéréshez!
-                </p>
-              </div>
-
-              {/* 6-jegyű kód */}
-              <div className="flex flex-col items-center gap-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-gradient-to-br from-indigo-50 via-white to-violet-50 dark:from-indigo-950/40 dark:via-slate-900 dark:to-violet-950/30 px-3 py-5 sm:p-6">
-                <InputOTP
-                  maxLength={6}
-                  inputMode="numeric"
-                  pattern="^[0-9]*$"
-                  value={joinCode}
-                  onChange={(val) => {
-                    setJoinCode(val);
-                    setJoinError(null);
-                    if (val.length === 6) {
-                      handleJoinByCode(val);
-                    }
-                  }}
-                  disabled={isJoining}
-                  containerClassName="gap-1.5 sm:gap-3"
-                >
-                  <InputOTPGroup className="gap-1.5 sm:gap-2">
-                    {[0, 1, 2].map((i) => (
-                      <InputOTPSlot key={i} index={i} className={PIN_SLOT_CLASS} />
-                    ))}
-                  </InputOTPGroup>
-                  <span className="text-2xl font-black text-indigo-300 dark:text-indigo-700 select-none" aria-hidden>–</span>
-                  <InputOTPGroup className="gap-1.5 sm:gap-2">
-                    {[3, 4, 5].map((i) => (
-                      <InputOTPSlot key={i} index={i} className={PIN_SLOT_CLASS} />
-                    ))}
-                  </InputOTPGroup>
-                </InputOTP>
-
-                <Button
-                  onClick={() => handleJoinByCode()}
-                  disabled={isJoining || joinCode.length !== 6}
-                  className="w-full max-w-sm h-12 rounded-xl font-black text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg shadow-indigo-500/25 disabled:opacity-50"
-                >
-                  {isJoining ? (
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <KeyRound className="w-4 h-4 mr-2" />
-                  )}
-                  {isJoining ? 'Belépés…' : 'Belépés a versenybe'}
-                </Button>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 -mt-1">
-                  {joinCode.length < 6 ? `Még ${6 - joinCode.length} számjegy hiányzik` : 'A 6. számjegy után automatikusan belépsz.'}
-                </p>
-              </div>
-
-              {joinError && (
-                <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
-                  <HelpCircle className="w-4 h-4 shrink-0 text-rose-500" />
-                  <span>{joinError}</span>
-                </div>
-              )}
-            </Card>
           </div>
 
           {/* Right: Nyitott Bajnokságok az iskolában (5 cols) */}
