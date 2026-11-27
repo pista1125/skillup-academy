@@ -25,6 +25,7 @@ import {
   ChessTournamentService 
 } from '@/lib/chess/ChessTournamentService';
 import { auth } from '@/lib/firebase';
+import { TOURNAMENT_BOT_DIFFICULTY } from '@/lib/chess/ChessAI';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -145,7 +146,8 @@ export default function ChessTournamentBracket({
 
     const oppName = opp?.name || (opp?.is_bot ? 'Sakk Bot' : 'Ellenfél');
     const isOpponentBot = isParticipant ? (opp?.is_bot ?? false) : false;
-    const botDifficulty = opp?.bot_difficulty ?? 3;
+    // Bajnokságban minden robot a legkönnyebb (kezdő) szinten játszik – a korábban létrehozott botok is
+    const botDifficulty = TOURNAMENT_BOT_DIFFICULTY;
 
     onJoinMatch(
       matchNode.match_id, 
@@ -173,8 +175,8 @@ export default function ChessTournamentBracket({
       const timer = setTimeout(() => {
         botMatches.forEach((botMatch) => {
           if (botMatch.player1 && botMatch.player2) {
-            const p1Diff = botMatch.player1.bot_difficulty || 3;
-            const p2Diff = botMatch.player2.bot_difficulty || 3;
+            const p1Diff = Math.max(1, botMatch.player1.bot_difficulty || 1);
+            const p2Diff = Math.max(1, botMatch.player2.bot_difficulty || 1);
             const p1Chance = p1Diff / (p1Diff + p2Diff);
             const p1Wins = Math.random() < p1Chance;
             const winnerId = p1Wins ? botMatch.player1.id : botMatch.player2.id;

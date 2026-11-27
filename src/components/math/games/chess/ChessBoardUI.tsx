@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import { ChessAI, getDifficultyDepth } from '@/lib/chess/ChessAI';
+import { ChessAI, getDifficultyDepth, pickBeginnerMove, TOURNAMENT_BOT_DIFFICULTY } from '@/lib/chess/ChessAI';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { 
@@ -449,9 +449,16 @@ export default function ChessBoardUI({
       let isCancelled = false;
 
       const makeAiMove = async () => {
-        if (!engine) return;
-        const depth = getDifficultyDepth(difficulty);
-        const bestMove = await engine.getBestMove(game.fen(), depth);
+        let bestMove: string | null = null;
+        if (difficulty <= TOURNAMENT_BOT_DIFFICULTY) {
+          // Kezdő robot: szándékosan gyenge lépés, Stockfish nélkül
+          const easy = pickBeginnerMove(game.fen());
+          if (easy) bestMove = `${easy.from}${easy.to}${easy.promotion ?? ''}`;
+        } else {
+          if (!engine) return;
+          const depth = getDifficultyDepth(difficulty);
+          bestMove = await engine.getBestMove(game.fen(), depth);
+        }
         if (isCancelled || !bestMove) return;
 
         const update = new Chess();
@@ -785,6 +792,15 @@ export default function ChessBoardUI({
   // Draw Offer Logic
   const handleOfferDraw = async () => {
     if (game.isGameOver() || customWinner) return;
+
+    if (mode === 'ai' && difficulty <= TOURNAMENT_BOT_DIFFICULTY) {
+      // A kezdő (bajnoki) robot mindig elfogadja a döntetlent – bajnokságban ilyenkor a diák jut tovább
+      setCustomWinner('draw');
+      setGameEndedReason('Döntetlen (Megegyezéssel a Robottal)');
+      toast.success("A Robot elfogadta a döntetlen ajánlatot! 🤝");
+      if (onGameEnd) onGameEnd('draw');
+      return;
+    }
 
     if (mode === 'ai') {
       if (moveHistory.length < 8) {

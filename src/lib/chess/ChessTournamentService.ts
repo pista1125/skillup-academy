@@ -23,7 +23,7 @@ export interface TournamentParticipant {
   user_code?: string;
   is_host?: boolean;
   is_bot?: boolean;
-  bot_difficulty?: number; // 1-5
+  bot_difficulty?: number; // 0 = kezdő (bajnoki) robot, 1-5 = Stockfish-szintek
   is_eliminated?: boolean;
   rank?: number;
 }
@@ -71,13 +71,13 @@ export interface ChessTournament {
 }
 
 const BOT_NAMES = [
-  { name: 'Sakk Bot Dani', avatar: '🦊', diff: 2 },
-  { name: 'Sakk Bot Lili', avatar: '🦁', diff: 3 },
-  { name: 'Sakk Bot Bence', avatar: '🐼', diff: 2 },
-  { name: 'Sakk Bot Anna', avatar: '🦉', diff: 4 },
-  { name: 'Sakk Bot Peti', avatar: '🤖', diff: 1 },
-  { name: 'Sakk Bot Zsófi', avatar: '🦄', diff: 3 },
-  { name: 'Sakk Mester Bot', avatar: '👑', diff: 5 }
+  { name: 'Sakk Bot Dani', avatar: '🦊', diff: 0 },
+  { name: 'Sakk Bot Lili', avatar: '🦁', diff: 0 },
+  { name: 'Sakk Bot Bence', avatar: '🐼', diff: 0 },
+  { name: 'Sakk Bot Anna', avatar: '🦉', diff: 0 },
+  { name: 'Sakk Bot Peti', avatar: '🤖', diff: 0 },
+  { name: 'Sakk Bot Zsófi', avatar: '🦄', diff: 0 },
+  { name: 'Sakk Mester Bot', avatar: '👑', diff: 0 }
 ];
 
 function generate6DigitCode(): string {
@@ -91,6 +91,17 @@ function getRoundName(round: number, totalRounds: number): string {
   if (diff === 2) return 'Negyeddöntő ♟️';
   if (diff === 3) return 'Nyolcaddöntő 🛡️';
   return `${round}. Forduló`;
+}
+
+/**
+ * Döntetlen esetén ki jut tovább? Robot ellen mindig a diák,
+ * két ember (vagy két robot) között az 1. játékos.
+ */
+export function resolveDrawWinner(matchNode: TournamentMatchNode): string | null {
+  const { player1, player2 } = matchNode;
+  if (player1?.is_bot && player2 && !player2.is_bot) return player2.id;
+  if (player2?.is_bot && player1 && !player1.is_bot) return player1.id;
+  return player1?.id ?? player2?.id ?? null;
 }
 
 export const ChessTournamentService = {
@@ -295,7 +306,7 @@ export const ChessTournamentService = {
       avatar_url: botTemplate.avatar,
       is_host: false,
       is_bot: true,
-      bot_difficulty: customDifficulty || botTemplate.diff,
+      bot_difficulty: customDifficulty ?? botTemplate.diff,
       is_eliminated: false
     };
 

@@ -15,7 +15,7 @@ import ChessLobby from "./ChessLobby";
 import ChessTournamentBracket from "./tournament/ChessTournamentBracket";
 import ChessTournamentPodium from "./tournament/ChessTournamentPodium";
 import { ChessService } from '@/lib/chess/ChessService';
-import { ChessTournament, ChessTournamentService } from '@/lib/chess/ChessTournamentService';
+import { ChessTournament, ChessTournamentService, resolveDrawWinner } from '@/lib/chess/ChessTournamentService';
 import { Chess } from 'chess.js';
 import { auth } from '@/lib/firebase';
 import { toast } from 'sonner';
@@ -192,10 +192,17 @@ export default function ChessGame({ onBack }: ChessGameProps) {
 
           // If this is a tournament match, report the winner!
           if (activeTournament && tournamentMatchNodeId) {
-            await ChessTournamentService.reportMatchResult(
+            // Döntetlennél is legyen továbbjutó (robot ellen a diák)
+            let tournamentWinnerId: string | null = winnerId;
+            if (winnerId === 'draw') {
+              const round = activeTournament.rounds[(activeTournament.current_round || 1) - 1];
+              const node = round?.matches.find(m => m.id === tournamentMatchNodeId);
+              tournamentWinnerId = node ? resolveDrawWinner(node) : null;
+            }
+            if (tournamentWinnerId) await ChessTournamentService.reportMatchResult(
               activeTournament.id,
               tournamentMatchNodeId,
-              winnerId,
+              tournamentWinnerId,
               endReason || 'Játszma befejezve'
             );
           }
@@ -213,8 +220,8 @@ export default function ChessGame({ onBack }: ChessGameProps) {
         const currentRound = activeTournament.rounds[activeTournament.current_round - 1];
         const matchNode = currentRound?.matches.find(m => m.id === tournamentMatchNodeId);
         if (matchNode) {
-          const winnerId = winnerColor === 'draw' 
-            ? (matchNode.player1?.id || 'draw') 
+          const winnerId = winnerColor === 'draw'
+            ? resolveDrawWinner(matchNode)
             : (winnerColor === 'white' ? matchNode.white_id : matchNode.black_id) || matchNode.player1?.id;
           
           if (winnerId) {
