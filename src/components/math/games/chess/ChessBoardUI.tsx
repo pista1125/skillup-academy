@@ -39,6 +39,7 @@ import {
   turnFromFen
 } from '@/lib/chess/chessRules';
 import { ServerClock } from '@/lib/chess/serverClock';
+import { ChessTournamentService, TournamentLogType } from '@/lib/chess/ChessTournamentService';
 import { auth } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -97,6 +98,8 @@ interface ChessBoardUIProps {
   tournamentContext?: {
     tournamentId: string;
     matchNodeId: string;
+    /** A játékos neve a naplóhoz. */
+    playerName?: string;
     roundName?: string;
   };
   isSpectator?: boolean;
@@ -142,6 +145,7 @@ export default function ChessBoardUI({
   const [gameEndedReason, setGameEndedReason] = useState<string | null>(null);
   const [showResignConfirm, setShowResignConfirm] = useState(false);
   const [isGameOverDismissed, setIsGameOverDismissed] = useState(false);
+  const [pendingPromotion, setPendingPromotion] = useState<{ from: string; to: string } | null>(null);
 
   // Timer states
   const effectiveTimeLimit = matchData?.time_limit !== undefined ? matchData.time_limit : (timeLimit ?? 300);
@@ -171,6 +175,14 @@ export default function ChessBoardUI({
   const endReportedRef = useRef(false);
   const onGameEndRef = useRef(onGameEnd);
   onGameEndRef.current = onGameEnd;
+
+  /** Bajnoki napló: a játékos saját eseményei (néző nem naplóz). */
+  const myLogName = tournamentContext?.playerName || (isWhite ? 'Világos' : 'Sötét');
+  const logEvent = (type: TournamentLogType, text: string) => {
+    if (!isTournamentMatch || isSpectator || !tournamentContext) return;
+    ChessTournamentService.appendLog(tournamentContext.tournamentId, type, text, tournamentContext.matchNodeId);
+  };
+  const openedLoggedRef = useRef<string | null>(null);
 
   const setPremoveWithRef = useCallback((val: { from: string; to: string; promotion?: string } | null) => {
     premoveRef.current = val;
@@ -290,6 +302,15 @@ export default function ChessBoardUI({
   useEffect(() => {
     endReportedRef.current = false;
   }, [matchId]);
+
+  // Napló: a játékos megnyitotta a játszmát (táblánként egyszer)
+  useEffect(() => {
+    if (!amTournamentPlayer || !matchId || matchData?.status !== 'active') return;
+    if (openedLoggedRef.current === matchId) return;
+    openedLoggedRef.current = matchId;
+    logEvent('opened', `${myLogName} megnyitotta a játszmát`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amTournamentPlayer, matchId, matchData?.status]);
 
   // Reactive Countdown Timer Effect (bajnokságon kívüli játszmák)
   useEffect(() => {
@@ -827,6 +848,14 @@ export default function ChessBoardUI({
       return;
     }
 
+    // Gyalogátváltozás: rákérdezünk, mivé változzon
+    if (isPromotionMove(moveFrom, square)) {
+      setPendingPromotion({ from: moveFrom, to: square });
+      setMoveFrom(null);
+      setOptionSquares({});
+      return;
+    }
+
     const move = {
       from: moveFrom,
       to: square,
@@ -867,6 +896,13 @@ export default function ChessBoardUI({
       return false; // Piece visually returns to current position until your turn
     }
 
+    if (isPromotionMove(sourceSquare, targetSquare)) {
+      setPendingPromotion({ from: sourceSquare, to: targetSquare });
+      setMoveFrom(null);
+      setOptionSquares({});
+      return false;
+    }
+
     const result = makeAMove({
       from: sourceSquare,
       to: targetSquare,
@@ -876,12 +912,63 @@ export default function ChessBoardUI({
     return result !== null;
   }
 
+  /** Szabályos gyalogátváltozás-e (gyalog az utolsó sorra lép). */
+  function isPromotionMove(from: string, to: string): boolean {
+    const piece = game.get(from as any);
+    if (!piece || piece.type !== 'p') return false;
+    if (!((piece.color === 'w' && to[1] === '8') || (piece.color === 'b' && to[1] === '1'))) return false;
+    return game.moves({ square: from as any, verbose: true }).some((m) => m.to === to);
+  }
+
+  const choosePromotion = (piece: 'q' | 'r' | 'b' | 'n') => {
+    const pending = pendingPromotion;
+    setPendingPromotion(null);
+    if (pending) makeAMove({ from: pending.from, to: pending.to, promotion: piece });
+  };
+
+  const renderPromotionPicker = () => {
+    if (!pendingPromotion) return null;
+    const isWhitePiece = game.get(pendingPromotion.from as any)?.color !== 'b';
+    const options: Array<{ key: 'q' | 'r' | 'b' | 'n'; label: string; white: string; black: string }> = [
+      { key: 'q', label: 'Vezér', white: '♕', black: '♛' },
+      { key: 'r', label: 'Bástya', white: '♖', black: '♜' },
+      { key: 'b', label: 'Futó', white: '♗', black: '♝' },
+      { key: 'n', label: 'Huszár', white: '♘', black: '♞' },
+    ];
+    return (
+      <div className="absolute inset-0 z-40 flex items-center justify-center p-3 bg-slate-950/55 backdrop-blur-[2px] animate-in fade-in duration-150">
+        <div className="w-full max-w-[320px] rounded-2xl bg-white dark:bg-slate-900 shadow-2xl ring-1 ring-black/10 dark:ring-white/10 p-4 text-center space-y-3 animate-in zoom-in-95 duration-150">
+          <h3 className="text-base font-black text-slate-900 dark:text-white">Mivé változzon a gyalog? ♟️</h3>
+          <div className="grid grid-cols-4 gap-2">
+            {options.map((o) => (
+              <button
+                key={o.key}
+                onClick={() => choosePromotion(o.key)}
+                className="flex flex-col items-center gap-1 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-amber-50 dark:bg-slate-800 py-2 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-colors"
+              >
+                <span className="text-4xl leading-none text-slate-900 dark:text-slate-100">{isWhitePiece ? o.white : o.black}</span>
+                <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300">{o.label}</span>
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setPendingPromotion(null)}
+            className="text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+          >
+            Mégse
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   // Draw Offer Logic
   const handleOfferDraw = async () => {
     if (game.isGameOver() || customWinner) return;
 
     if (mode === 'ai' && difficulty <= TOURNAMENT_BOT_DIFFICULTY) {
       // A kezdő (bajnoki) robot mindig elfogadja a döntetlent – bajnokságban ilyenkor a diák jut tovább
+      logEvent('draw_offer', `${myLogName} döntetlent ajánlott a robotnak – a robot elfogadta`);
       setCustomWinner('draw');
       setGameEndedReason('Döntetlen (Megegyezéssel a Robottal)');
       toast.success("A Robot elfogadta a döntetlen ajánlatot! 🤝");
@@ -927,6 +1014,7 @@ export default function ChessBoardUI({
       try {
         await ChessService.offerDraw(matchId, user.uid);
         setIsMyDrawOfferPending(true);
+        logEvent('draw_offer', `${myLogName} döntetlent ajánlott${drawAdvanceText ? ` (${drawAdvanceText})` : ''}`);
         toast.info('🤝 Döntetlen ajánlat elküldve az ellenfélnek...', drawAdvanceText ? { description: drawAdvanceText } : undefined);
       } catch (e) {
         toast.error('Nem sikerült elküldeni a döntetlen ajánlatot.');
@@ -938,6 +1026,7 @@ export default function ChessBoardUI({
     if (mode === 'friend' && matchId) {
       try {
         await ChessService.respondDraw(matchId, accept);
+        logEvent(accept ? 'draw_offer' : 'draw_declined', `${myLogName} ${accept ? 'elfogadta' : 'elutasította'} a döntetlent`);
         if (accept) {
           setCustomWinner('draw');
           setGameEndedReason('Döntetlen (Megegyezéssel)');
@@ -958,6 +1047,7 @@ export default function ChessBoardUI({
 
     setCustomWinner(opponentColor);
     setGameEndedReason('Feladtad a játszmát.');
+    logEvent('resign', `${myLogName} feladta a játszmát 🏳️`);
 
     if (mode === 'friend' && matchId && matchData) {
       const opponentUid = isWhite ? matchData.black_id : matchData.white_id;
@@ -1181,7 +1271,9 @@ export default function ChessBoardUI({
   }, [isTournamentMatch, matchData, serverNow, botColor, isSpectator, myColorName, oppDisplayName]);
 
   const handleConfirmActive = () => {
-    if (matchId) ChessService.confirmActive(matchId, myColorName).catch(() => toast.error('Nem sikerült jelezni – próbáld újra!'));
+    if (!matchId) return;
+    ChessService.confirmActive(matchId, myColorName).catch(() => toast.error('Nem sikerült jelezni – próbáld újra!'));
+    logEvent('presence', `${myLogName} az „Itt vagy még?” kérdésre jelezte: itt van`);
   };
 
   const renderTournamentAlerts = () => {
@@ -1274,65 +1366,57 @@ export default function ChessBoardUI({
   const renderBoardGameOverPopup = () => {
     if (!isGameOver || !gameOverInfo || isGameOverDismissed) return null;
 
-    const { subtitle, badgeColor, icon, playerWon, isDraw } = gameOverInfo;
+    const { title, subtitle, playerWon, isDraw } = gameOverInfo;
+    const tone = isSpectator ? 'neutral' : playerWon ? 'win' : isDraw ? 'draw' : 'loss';
+    const TONES = {
+      win: { band: 'from-emerald-500 to-teal-600', emoji: '🏆', heading: 'Győztél!' },
+      loss: { band: 'from-rose-500 to-pink-600', emoji: '😔', heading: 'Vesztettél' },
+      draw: { band: 'from-amber-400 to-orange-500', emoji: '🤝', heading: 'Döntetlen!' },
+      neutral: { band: 'from-indigo-500 to-violet-600', emoji: '🏁', heading: title },
+    } as const;
+    const t = TONES[tone];
 
     return (
-      <div className="absolute inset-0 z-30 flex items-center justify-center p-3 pointer-events-none animate-in fade-in zoom-in-95 duration-200">
-        <div className="pointer-events-auto bg-slate-950/92 dark:bg-slate-950/95 backdrop-blur-md border-2 border-slate-700/80 rounded-2xl p-3.5 sm:p-4 shadow-2xl max-w-[270px] w-full text-center text-white relative">
-          {/* Close button [X] */}
-          <button
-            onClick={() => setIsGameOverDismissed(true)}
-            className="absolute top-2.5 right-2.5 p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-            title="Bezárás (tábla megtekintése)"
-          >
-            <X className="w-4 h-4" />
-          </button>
-
-          {/* Badge & Icon */}
-          <div className="flex justify-center mb-1.5">
-            <div className={cn("p-2 rounded-xl border flex items-center justify-center shadow-inner", badgeColor)}>
-              {icon}
-            </div>
+      <div className="absolute inset-0 z-30 flex items-center justify-center p-3 bg-slate-950/50 backdrop-blur-[2px] animate-in fade-in duration-200">
+        <div className="w-full max-w-[300px] overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-2xl ring-1 ring-black/10 dark:ring-white/10 text-center animate-in zoom-in-95 duration-200">
+          {/* Színes fejléc */}
+          <div className={cn('relative bg-gradient-to-br px-4 pt-5 pb-4 text-white', t.band)}>
+            <button
+              onClick={() => setIsGameOverDismissed(true)}
+              className="absolute top-2 right-2 p-1.5 rounded-lg text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+              title="Bezárás (tábla megtekintése)"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <div className="text-4xl leading-none drop-shadow-sm">{t.emoji}</div>
+            <h3 className="mt-2 text-2xl font-black tracking-tight drop-shadow-sm">{t.heading}</h3>
           </div>
 
-          {/* Main Title: Győztél / Vesztettél / Döntetlen */}
-          <h3 className={cn(
-            "text-lg font-black tracking-tight mb-1",
-            playerWon ? "text-emerald-400" : isDraw ? "text-amber-400" : "text-rose-400"
-          )}>
-            {playerWon ? 'GYŐZTÉL! 🏆' : isDraw ? 'DÖNTETLEN! 🤝' : 'VESZTETTÉL'}
-          </h3>
+          {/* Indoklás + gombok */}
+          <div className="px-4 pt-3.5 pb-4 space-y-3">
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">{subtitle}</p>
 
-          {/* Subtitle */}
-          <p className="text-xs text-slate-300 font-medium mb-3 px-1 leading-snug">
-            {subtitle}
-          </p>
-
-          {/* Actions */}
-          <div className="flex flex-col gap-1.5">
             {onBackToTournament ? (
               <Button
                 onClick={onBackToTournament}
-                size="sm"
-                className="w-full h-8 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md flex items-center justify-center gap-1.5"
+                className="w-full h-10 rounded-xl font-black text-sm bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md flex items-center justify-center gap-1.5"
               >
-                <Trophy className="w-3.5 h-3.5" /> Vissza az Ágrajzhoz
+                <Trophy className="w-4 h-4" /> Vissza az ágrajzhoz
               </Button>
             ) : (
               <Button
                 onClick={resetGame}
-                size="sm"
-                className="w-full h-8 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-500 text-white shadow-md flex items-center justify-center gap-1.5"
+                className="w-full h-10 rounded-xl font-black text-sm bg-indigo-600 hover:bg-indigo-700 text-white shadow-md flex items-center justify-center gap-1.5"
               >
-                <RotateCcw className="w-3.5 h-3.5" /> Új játék indítása
+                <RotateCcw className="w-4 h-4" /> Új játék indítása
               </Button>
             )}
 
             <button
               onClick={() => setIsGameOverDismissed(true)}
-              className="w-full py-1 text-[11px] text-slate-400 hover:text-slate-200 hover:underline flex items-center justify-center gap-1 transition-colors"
+              className="w-full h-9 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-1.5 transition-colors"
             >
-              <Eye className="w-3.5 h-3.5" /> Tábla megtekintése (X)
+              <Eye className="w-4 h-4" /> Tábla megtekintése
             </button>
           </div>
         </div>
@@ -1506,6 +1590,7 @@ export default function ChessBoardUI({
             <Chessboard
               position={game.fen()}
               onPieceDrop={onDrop}
+              onPromotionCheck={() => false}
               onSquareClick={onSquareClick}
               onSquareRightClick={() => {
                 setMoveFrom(null);
@@ -1522,6 +1607,7 @@ export default function ChessBoardUI({
             />
 
             {/* Compact Non-intrusive Game Over Popup with [X] Close */}
+            {renderPromotionPicker()}
             {renderBoardGameOverPopup()}
           </div>
 
@@ -1769,7 +1855,8 @@ export default function ChessBoardUI({
           <div className="aspect-square relative mx-auto w-full">
             <Chessboard 
               position={game.fen()} 
-              onPieceDrop={onDrop} 
+              onPieceDrop={onDrop}
+              onPromotionCheck={() => false} 
               onSquareClick={onSquareClick}
               onSquareRightClick={() => {
                 setMoveFrom(null);
@@ -1787,6 +1874,7 @@ export default function ChessBoardUI({
             />
 
             {/* Compact Non-intrusive Game Over Popup with [X] Close */}
+            {renderPromotionPicker()}
             {renderBoardGameOverPopup()}
           </div>
 

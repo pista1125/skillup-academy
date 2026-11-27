@@ -27,6 +27,8 @@ import {
 import { auth } from '@/lib/firebase';
 import { TOURNAMENT_BOT_DIFFICULTY } from '@/lib/chess/ChessAI';
 import ChessRpsPanel from './ChessRpsPanel';
+import ChessTournamentLog from './ChessTournamentLog';
+import { ScrollText } from 'lucide-react';
 import { useTournamentReferee } from './useTournamentReferee';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -185,6 +187,8 @@ export default function ChessTournamentBracket({
     return () => clearTimeout(timer);
   }, [isHost, tournament.id, tournament.status, botNodeKey]);
 
+  const [showLog, setShowLog] = useState(false);
+
   // Tanári döntés
   const [overrideNodeId, setOverrideNodeId] = useState<string | null>(null);
   const handleOverride = async (node: TournamentMatchNode, winner: TournamentParticipant) => {
@@ -234,7 +238,7 @@ export default function ChessTournamentBracket({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
           {tournament.status === 'finished' && (
             <Button
               onClick={onViewPodium}
@@ -244,6 +248,18 @@ export default function ChessTournamentBracket({
               Dobogó & Eredményhirdetés
             </Button>
           )}
+
+          <Button
+            size="sm"
+            onClick={() => setShowLog((v) => !v)}
+            className={cn(
+              "h-9 px-3 rounded-xl font-bold text-xs border",
+              showLog ? "bg-indigo-500 text-white border-indigo-400" : "bg-white/10 hover:bg-white/20 text-white border-white/20"
+            )}
+          >
+            <ScrollText className="w-4 h-4 mr-1.5" />
+            Napló
+          </Button>
 
           <div className="flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-xl border border-indigo-500/30 text-xs font-mono">
             <Users className="w-3.5 h-3.5 text-indigo-400" />
@@ -284,6 +300,8 @@ export default function ChessTournamentBracket({
           </Button>
         </div>
       )}
+
+      {showLog && <ChessTournamentLog tournament={tournament} onClose={() => setShowLog(false)} />}
 
       {/* KŐ-PAPÍR-OLLÓ A TOVÁBBJUTÁSÉRT */}
       {myTiebreakNode && tournament.status === 'in_progress' && (

@@ -60,6 +60,8 @@ export interface ChessMatch {
   black_active_at?: unknown;
   tournament_id?: string;
   tournament_match_node_id?: string;
+  /** Bajnoki játszmák lépései algebrai jelöléssel (napló). */
+  moves?: string[];
   created_at: string;
   updated_at: string;
   white_profile?: ChessProfile;
@@ -611,6 +613,17 @@ export const ChessService = {
       if (m.status !== 'active') return 'rejected';
       if (plyFromFen(fen) !== plyFromFen(m.fen) + 1) return 'rejected';
 
+      // Szabályosság ellenőrzése + a lépés algebrai jelölése a naplóhoz
+      let san = move;
+      try {
+        const check = new Chess(m.fen);
+        const played = check.move({ from: move.slice(0, 2), to: move.slice(2, 4), promotion: move[4] });
+        san = played.san;
+        if (check.fen().split(' ')[0] !== fen.split(' ')[0]) return 'rejected';
+      } catch {
+        return 'rejected';
+      }
+
       const mover = turnFromFen(m.fen);
       const botColor = botColorOf(m);
       const clocks = computeClocks(m, ServerClock.now(), { frozenColor: botColor });
@@ -639,6 +652,7 @@ export const ChessService = {
         last_move_timestamp: Date.now(),
         turn_started_at: serverTimestamp(),
         [`${mover}_active_at`]: serverTimestamp(),
+        moves: [...(m.moves ?? []), san],
       });
       if (clocks.timed) update[`${mover}_time_remaining`] = Math.round(clocks[mover] * 10) / 10;
 

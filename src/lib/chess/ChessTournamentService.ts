@@ -10,11 +10,46 @@ import {
   onSnapshot,
   runTransaction,
   serverTimestamp,
+  arrayUnion,
+  updateDoc,
   Transaction,
   DocumentReference
 } from 'firebase/firestore';
 import { ChessService, ChessProfile, ChessMatch } from './ChessService';
 import { RPS_LABEL, RpsChoice, plyFromFen, resolveDrawFromMatch, rpsOutcome } from './chessRules';
+import { ServerClock } from './serverClock';
+
+// ---------------------------------------------------------------------------
+// Napló
+// ---------------------------------------------------------------------------
+
+export type TournamentLogType =
+  | 'created' | 'join' | 'leave' | 'host' | 'bot' | 'start' | 'pairing' | 'round'
+  | 'result' | 'tiebreak' | 'rps' | 'override' | 'finish'
+  | 'opened' | 'draw_offer' | 'draw_declined' | 'resign' | 'presence';
+
+export interface TournamentLogEntry {
+  id: string;
+  at: string;          // ISO (szerveridő-becslés)
+  type: TournamentLogType;
+  text: string;
+  node_id?: string;
+}
+
+export type LogFn = (type: TournamentLogType, text: string, nodeId?: string) => void;
+
+export function makeLogEntry(type: TournamentLogType, text: string, nodeId?: string): TournamentLogEntry {
+  const entry: TournamentLogEntry = {
+    id: `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+    at: new Date(ServerClock.now()).toISOString(),
+    type,
+    text,
+  };
+  if (nodeId) entry.node_id = nodeId;
+  return entry;
+}
+
+const noLog: LogFn = () => {};
 
 export type TournamentStatus = 'waiting' | 'in_progress' | 'finished' | 'cancelled';
 
@@ -78,6 +113,8 @@ export interface ChessTournament {
   winner: TournamentParticipant | null;
   runner_up: TournamentParticipant | null;
   third_place?: TournamentParticipant | null;
+  /** Eseménynapló (régebbi bajnokságoknál hiányzik). */
+  log?: TournamentLogEntry[];
   created_at: string;
   updated_at: string;
 }
@@ -144,7 +181,8 @@ function setUpPairing(
   tournament: ChessTournament,
   tournamentId: string,
   node: TournamentMatchNode,
-  write: (ref: DocumentReference, data: Record<string, unknown>) => void
+  write: (ref: DocumentReference, data: Record<string, unknown>) => void,
+  log: LogFn = noLog
 ) {
   const p1 = node.player1;
   const p2 = node.player2;
@@ -158,6 +196,7 @@ function setUpPairing(
   const black = isP1White ? p2 : p1;
   node.white_id = white.id;
   node.black_id = black.id;
+  log('pairing', `${node.round_name}: ${white.name} (világos ♔) – ${black.name} (sötét ♚)`, node.id);
 
   if (p1.is_bot && p2.is_bot) {
     delete node.match_id;
@@ -217,7 +256,8 @@ function loserOf(node: TournamentMatchNode | undefined): TournamentParticipant |
 function advanceIfRoundComplete(
   t: ChessTournament,
   tournamentId: string,
-  write: (ref: DocumentReference, data: Record<string, unknown>) => void
+  write: (ref: DocumentReference, data: Record<string, unknown>) => void,
+  log: LogFn = noLog
 ) {
   const currentRound = t.rounds[t.current_round - 1];
   if (!currentRound) return;
@@ -233,15 +273,17 @@ function advanceIfRoundComplete(
     const semis = t.rounds[t.current_round - 2]?.matches || [];
     const semiVsChampion = semis.find((m) => m.winner_id && m.winner_id === t.winner?.id);
     t.third_place = loserOf(semiVsChampion) ?? null;
+    log('finish', `🏆 A bajnokság véget ért. Bajnok: ${t.winner?.name ?? '?'}, 2. hely: ${t.runner_up?.name ?? '?'}${t.third_place ? `, 3. hely: ${t.third_place.name}` : ''}`);
     return;
   }
 
   const nextRound = t.rounds[t.current_round];
   if (!nextRound) return;
+  log('round', `▶ Kezdődik: ${nextRound.round_name}`);
   nextRound.matches.forEach((nextNode, i) => {
     nextNode.player1 = winnerOf(currentRound.matches[i * 2]);
     nextNode.player2 = winnerOf(currentRound.matches[i * 2 + 1]);
-    setUpPairing(t, tournamentId, nextNode, write);
+    setUpPairing(t, tournamentId, nextNode, write, log);
   });
   t.current_round += 1;
 }
@@ -271,7 +313,8 @@ async function mutateTournament<T>(
   mutate: (
     t: ChessTournament,
     tx: Transaction,
-    write: (ref: DocumentReference, data: Record<string, unknown>) => void
+    write: (ref: DocumentReference, data: Record<string, unknown>) => void,
+    log: LogFn
   ) => Promise<T | 'noop'> | T | 'noop'
 ): Promise<T | 'noop'> {
   const tRef = doc(db, 'chess_tournaments', tournamentId);
@@ -280,10 +323,16 @@ async function mutateTournament<T>(
     if (!snap.exists()) return 'noop';
     const t = { id: snap.id, ...snap.data() } as ChessTournament;
     const pendingWrites: Array<[DocumentReference, Record<string, unknown>]> = [];
-    const result = await mutate(t, tx, (ref, data) => pendingWrites.push([ref, data]));
+    const entries: TournamentLogEntry[] = [];
+    const result = await mutate(
+      t,
+      tx,
+      (ref, data) => pendingWrites.push([ref, data]),
+      (type, text, nodeId) => entries.push(makeLogEntry(type, text, nodeId))
+    );
     if (result === 'noop') return 'noop';
     pendingWrites.forEach(([ref, data]) => tx.set(ref, data));
-    tx.update(tRef, tournamentUpdate(t));
+    tx.update(tRef, entries.length ? { ...tournamentUpdate(t), log: arrayUnion(...entries) } : tournamentUpdate(t));
     return result;
   });
 }
@@ -320,6 +369,7 @@ export const ChessTournamentService = {
       winner: null,
       runner_up: null,
       third_place: null,
+      log: [makeLogEntry('created', `Bajnokság létrehozva – szervező: ${profile?.full_name || user.displayName || 'Szervező'}, ${timeLimit > 0 ? `${Math.round(timeLimit / 60)} perces` : 'időkorlát nélküli'} játszmák`)],
       created_at: now,
       updated_at: now
     };
@@ -333,9 +383,10 @@ export const ChessTournamentService = {
     const user = auth.currentUser;
     if (!user) throw new Error('Nem vagy bejelentkezve');
     const profile = playing ? await loadProfile(user.uid, 'Szervező') : null;
-    await mutateTournament(tournamentId, (t) => {
+    await mutateTournament(tournamentId, (t, _tx, _write, log) => {
       if (t.status !== 'waiting') throw new Error('A bajnokság már elindult');
       if (t.host_id !== user.uid) throw new Error('Csak a szervező teheti ezt meg');
+      log('host', playing ? `A szervező (${t.host_name}) beszállt játékosként` : `A szervező (${t.host_name}) kiszállt, csak szervez`);
       const already = t.participants.some((p) => p.id === user.uid);
       if (playing) {
         if (already) return 'noop';
@@ -409,7 +460,7 @@ export const ChessTournamentService = {
     };
 
     let joined: ChessTournament = tournament;
-    await mutateTournament(tournament.id, (t) => {
+    await mutateTournament(tournament.id, (t, _tx, _write, log) => {
       if (t.participants.some((p) => p.id === user.uid)) {
         joined = t;
         return 'noop';
@@ -420,6 +471,7 @@ export const ChessTournamentService = {
       }
       if (t.participants.length >= t.max_players) throw new Error('Ez a bajnokság már megtelt!');
       t.participants.push(newParticipant);
+      log('join', `${newParticipant.name} csatlakozott`);
       joined = t;
       return true;
     });
@@ -476,7 +528,7 @@ export const ChessTournamentService = {
    * Add an AI bot participant to fill a slot
    */
   async addBotParticipant(tournamentId: string, customDifficulty?: number): Promise<void> {
-    await mutateTournament(tournamentId, (t) => {
+    await mutateTournament(tournamentId, (t, _tx, _write, log) => {
       if (t.status !== 'waiting') throw new Error('A bajnokság már elindult');
       if (t.participants.length >= t.max_players) throw new Error('A bajnokság már betelt');
 
@@ -491,6 +543,7 @@ export const ChessTournamentService = {
         bot_difficulty: customDifficulty ?? botTemplate.diff,
         is_eliminated: false
       });
+      log('bot', `Robot hozzáadva: ${botTemplate.name} #${currentBotsCount + 1}`);
       return true;
     });
   },
@@ -499,9 +552,13 @@ export const ChessTournamentService = {
    * Remove / Kick a participant (waiting room)
    */
   async removeParticipant(tournamentId: string, participantId: string): Promise<void> {
-    await mutateTournament(tournamentId, (t) => {
+    const uid = auth.currentUser?.uid;
+    await mutateTournament(tournamentId, (t, _tx, _write, log) => {
       if (t.status !== 'waiting') return 'noop';
+      const leaving = t.participants.find(p => p.id === participantId);
+      if (!leaving) return 'noop';
       t.participants = t.participants.filter(p => p.id !== participantId);
+      log('leave', participantId === uid ? `${leaving.name} kilépett a váróteremből` : `${leaving.name} eltávolítva (szervező)`);
       return true;
     });
   },
@@ -510,7 +567,7 @@ export const ChessTournamentService = {
    * Bajnokság indítása: sorsolás, ágrajz, 1. forduló játszmái.
    */
   async startTournament(tournamentId: string): Promise<void> {
-    await mutateTournament(tournamentId, (t, _tx, write) => {
+    await mutateTournament(tournamentId, (t, _tx, write, log) => {
       if (t.status !== 'waiting') return 'noop';
       if (t.participants.length < 2) {
         throw new Error('A bajnokság indításához legalább 2 résztvevő szükséges!');
@@ -568,9 +625,12 @@ export const ChessTournamentService = {
       t.status = 'in_progress';
       t.current_round = 1;
       t.total_rounds = totalRounds;
+      const autoBots = shuffled.length - t.participants.length;
+      const limitText = t.time_limit > 0 ? `${Math.round(t.time_limit / 60)} perces játszmák` : 'időkorlát nélkül';
+      log('start', `🚀 A bajnokság elindult: ${t.participants.length} résztvevő${autoBots > 0 ? ` (+${autoBots} automatikus robot)` : ''}, ${limitText}`);
       t.participants = shuffled;
       t.rounds = rounds;
-      rounds[0].matches.forEach((node) => setUpPairing(t, tournamentId, node, write));
+      rounds[0].matches.forEach((node) => setUpPairing(t, tournamentId, node, write, log));
       return true;
     });
   },
@@ -581,11 +641,12 @@ export const ChessTournamentService = {
    * Bárki hívhatja (játékos, néző, szervező) – ha már rögzítve van, nem csinál semmit.
    */
   async syncMatchResult(tournamentId: string, nodeId: string): Promise<void> {
-    await mutateTournament(tournamentId, async (t, tx, write) => {
+    await mutateTournament(tournamentId, async (t, tx, write, log) => {
       const found = findNode(t, nodeId);
       if (!found) return 'noop';
       const { node } = found;
       if (node.status !== 'in_progress' || !node.match_id) return 'noop';
+      const vs = `${node.player1?.name} – ${node.player2?.name}`;
 
       const mSnap = await tx.get(doc(db, 'chess_matches', node.match_id));
       if (!mSnap.exists()) return 'noop';
@@ -600,26 +661,29 @@ export const ChessTournamentService = {
           node.score = '½ - ½';
           node.end_reason = `${reason} – ${res.reason}`;
           node.rps = { round: 1, choices: {}, history: [] };
+          log('tiebreak', `${node.round_name} · ${vs}: ½ - ½ (${reason}). Idő és anyag egyenlő → kő-papír-olló dönt`, node.id);
           return true;
         }
         const winnerId = res.winnerColor === 'white' ? m.white_id : m.black_id;
         if (!winnerId || (winnerId !== node.player1?.id && winnerId !== node.player2?.id)) return 'noop';
         writeNodeWinner(t, node, winnerId, `${reason} → továbbjut, mert ${res.reason}`, '½ - ½');
+        log('result', `${node.round_name} · ${vs}: ½ - ½ (${reason}) → ${winnerOf(node)?.name} továbbjut, mert ${res.reason}`, node.id);
       } else {
         if (m.winner_id !== node.player1?.id && m.winner_id !== node.player2?.id) {
           console.warn('Ismeretlen győztes a játszmában', node.id, m.winner_id);
           return 'noop';
         }
         writeNodeWinner(t, node, m.winner_id, reason);
+        log('result', `${node.round_name} · ${vs}: ${node.score} – ${winnerOf(node)?.name} győzött (${reason})`, node.id);
       }
-      advanceIfRoundComplete(t, tournamentId, write);
+      advanceIfRoundComplete(t, tournamentId, write, log);
       return true;
     });
   },
 
   /** Robot–robot meccs szimulálása (a szervező gépe hívja). */
   async resolveBotMatch(tournamentId: string, nodeId: string): Promise<void> {
-    await mutateTournament(tournamentId, (t, _tx, write) => {
+    await mutateTournament(tournamentId, (t, _tx, write, log) => {
       const found = findNode(t, nodeId);
       if (!found) return 'noop';
       const { node } = found;
@@ -629,7 +693,8 @@ export const ChessTournamentService = {
       const p1Wins = Math.random() < d1 / (d1 + d2);
       const winner = p1Wins ? node.player1 : node.player2;
       writeNodeWinner(t, node, winner.id, `${winner.name} győzött 🤖🏆`);
-      advanceIfRoundComplete(t, tournamentId, write);
+      log('result', `${node.round_name} · ${node.player1.name} – ${node.player2.name}: gépi meccs, ${winner.name} győzött`, node.id);
+      advanceIfRoundComplete(t, tournamentId, write, log);
       return true;
     });
   },
@@ -638,7 +703,7 @@ export const ChessTournamentService = {
   async submitRpsChoice(tournamentId: string, nodeId: string, choice: RpsChoice): Promise<void> {
     const uid = auth.currentUser?.uid;
     if (!uid) throw new Error('Nem vagy bejelentkezve');
-    await mutateTournament(tournamentId, (t, _tx, write) => {
+    await mutateTournament(tournamentId, (t, _tx, write, log) => {
       const found = findNode(t, nodeId);
       if (!found) return 'noop';
       const { node } = found;
@@ -656,6 +721,7 @@ export const ChessTournamentService = {
 
       rps.history = [...(rps.history || []), { round: rps.round, p1: c1, p2: c2 }];
       const out = rpsOutcome(c1, c2);
+      log('rps', `Kő-papír-olló ${rps.round}. kör: ${node.player1.name} ${RPS_LABEL[c1]} – ${node.player2.name} ${RPS_LABEL[c2]}${out === 0 ? ' → egyenlő, újra' : ` → ${(out === 1 ? node.player1 : node.player2).name} továbbjut`}`, node.id);
       if (out === 0) {
         rps.round += 1;
         rps.choices = {};
@@ -669,7 +735,7 @@ export const ChessTournamentService = {
         `${node.end_reason || 'Döntetlen'} – kő-papír-olló: ${node.player1.name} ${RPS_LABEL[c1]} vs ${node.player2.name} ${RPS_LABEL[c2]}`,
         '½ - ½'
       );
-      advanceIfRoundComplete(t, tournamentId, write);
+      advanceIfRoundComplete(t, tournamentId, write, log);
       return true;
     });
   },
@@ -681,7 +747,7 @@ export const ChessTournamentService = {
    */
   async overrideResult(tournamentId: string, nodeId: string, winnerId: string): Promise<void> {
     const uid = auth.currentUser?.uid;
-    await mutateTournament(tournamentId, async (t, tx, write) => {
+    await mutateTournament(tournamentId, async (t, tx, write, log) => {
       if (t.host_id !== uid) throw new Error('Csak a szervező dönthet');
       const found = findNode(t, nodeId);
       if (!found) throw new Error('A meccs nem található');
@@ -729,6 +795,7 @@ export const ChessTournamentService = {
       }
 
       const oldWinnerId = node.winner_id;
+      log('override', `⚖️ Tanári döntés (${t.host_name}): ${node.round_name} · ${node.player1?.name} – ${node.player2?.name} → ${winner.name} jut tovább${oldWinnerId && oldWinnerId !== winnerId ? ' (korábbi eredmény átírva)' : ''}`, node.id);
       writeNodeWinner(t, node, winnerId, reason, node.score === '½ - ½' ? '½ - ½' : undefined);
       node.decided_by_host = true;
 
@@ -747,7 +814,7 @@ export const ChessTournamentService = {
             updated_at: new Date().toISOString(),
           });
         } else if (nextNode.player1 && nextNode.player2 && !(nextNode.player1.is_bot && nextNode.player2.is_bot)) {
-          setUpPairing(t, tournamentId, nextNode, write);
+          setUpPairing(t, tournamentId, nextNode, write, log);
         }
       } else if (t.status === 'finished' && roundIdx === t.rounds.length - 1) {
         // A döntő átírása
@@ -756,10 +823,19 @@ export const ChessTournamentService = {
         const semis = t.rounds[roundIdx - 1]?.matches || [];
         t.third_place = loserOf(semis.find((m) => m.winner_id === t.winner?.id)) ?? null;
       } else {
-        advanceIfRoundComplete(t, tournamentId, write);
+        advanceIfRoundComplete(t, tournamentId, write, log);
       }
       return true;
     });
+  },
+
+  /** Naplóbejegyzés a bajnokságon kívüli eseményekhez (pl. döntetlenajánlat a táblánál). */
+  async appendLog(tournamentId: string, type: TournamentLogType, text: string, nodeId?: string): Promise<void> {
+    try {
+      await updateDoc(doc(db, 'chess_tournaments', tournamentId), { log: arrayUnion(makeLogEntry(type, text, nodeId)) });
+    } catch (e) {
+      console.warn('Naplózás sikertelen', e);
+    }
   },
 
   /**

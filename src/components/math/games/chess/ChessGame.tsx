@@ -394,7 +394,9 @@ export default function ChessGame({ onBack }: ChessGameProps) {
                 ? {
                     tournamentId: activeTournament.id,
                     matchNodeId: tournamentMatchNodeId,
-                    roundName: activeTournament.rounds[activeTournament.current_round - 1]?.round_name
+                    roundName: activeTournament.rounds[activeTournament.current_round - 1]?.round_name,
+                    playerName: activeTournament.participants.find((p) => p.id === currentUid)?.name
+                      ?? (activeTournament.host_id === currentUid ? activeTournament.host_name : undefined)
                   }
                 : undefined
             }
