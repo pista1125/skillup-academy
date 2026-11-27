@@ -26,7 +26,19 @@ import {
   Maximize2
 } from 'lucide-react';
 import { ChessService, ChessMatch, hasSufficientMatingMaterial } from '@/lib/chess/ChessService';
-import { ChessTournamentService } from '@/lib/chess/ChessTournamentService';
+import {
+  ChessColor,
+  INACTIVITY,
+  botColorOf,
+  computeClocks,
+  evaluateReferee,
+  idleSeconds,
+  pendingForfeit,
+  plyFromFen,
+  resolveDrawTiebreak,
+  turnFromFen
+} from '@/lib/chess/chessRules';
+import { ServerClock } from '@/lib/chess/serverClock';
 import { auth } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -80,7 +92,8 @@ interface ChessBoardUIProps {
   isWhite?: boolean;
   timeLimit?: number; // in seconds, 0 = unlimited, default 300
   onMove?: (fen: string, move: string, whiteTime?: number, blackTime?: number) => void;
-  onGameEnd?: (winner: 'white' | 'black' | 'draw') => void;
+  /** fromServer: a játszma lezárása a szerverről érkezett (nem itt történt). */
+  onGameEnd?: (winner: 'white' | 'black' | 'draw', opts?: { reason?: string; fromServer?: boolean }) => void;
   tournamentContext?: {
     tournamentId: string;
     matchNodeId: string;
@@ -147,6 +160,17 @@ export default function ChessBoardUI({
   const orientation = isWhite ? 'white' : 'black';
   const myColor = isWhite ? 'w' : 'b';
   const isMyTurn = game.turn() === myColor;
+
+  // Bajnoki játszma: szerveridős óra, játékvezető, jelenlét-jel, „Itt vagy még?”
+  const isTournamentMatch = !!tournamentContext && !!matchId;
+  const amTournamentPlayer = isTournamentMatch && !isSpectator;
+  const myColorName: ChessColor = isWhite ? 'white' : 'black';
+  const botColor = matchData ? botColorOf(matchData) : null;
+  const [serverNow, setServerNow] = useState(() => ServerClock.now());
+  const lastClaimRef = useRef(0);
+  const endReportedRef = useRef(false);
+  const onGameEndRef = useRef(onGameEnd);
+  onGameEndRef.current = onGameEnd;
 
   const setPremoveWithRef = useCallback((val: { from: string; to: string; promotion?: string } | null) => {
     premoveRef.current = val;
@@ -219,8 +243,57 @@ export default function ChessBoardUI({
     }
   }, [timeLimit, mode]);
 
-  // Reactive Countdown Timer Effect
+  // Bajnoki óra: a kijelzett idő a szerveren tárolt adatokból számolódik (nem helyi visszaszámlálás)
   useEffect(() => {
+    if (!isTournamentMatch) return;
+    ServerClock.ensureSynced();
+    const id = setInterval(() => setServerNow(ServerClock.now()), 500);
+    return () => clearInterval(id);
+  }, [isTournamentMatch]);
+
+  useEffect(() => {
+    if (!isTournamentMatch || !matchData) return;
+    const clocks = computeClocks(matchData, serverNow, { frozenColor: botColor });
+    if (clocks.timed) {
+      setWhiteTime(Math.ceil(clocks.white));
+      setBlackTime(Math.ceil(clocks.black));
+    }
+    // Játékvezető: lejárt idő / kilépés / inaktivitás → lezárás (a szerveroldali tranzakció újra ellenőrzi)
+    if (
+      matchId &&
+      matchData.status === 'active' &&
+      ServerClock.isSynced() &&
+      evaluateReferee(matchData, serverNow, botColor) &&
+      serverNow - lastClaimRef.current > 4000
+    ) {
+      lastClaimRef.current = serverNow;
+      ChessService.claimReferee(matchId).catch((e) => console.warn('Játékvezetői lezárás sikertelen', e));
+    }
+  }, [isTournamentMatch, matchData, serverNow, botColor, matchId]);
+
+  // Jelenlét-jel, amíg a játékos a táblánál van
+  useEffect(() => {
+    if (!amTournamentPlayer || !matchId || matchData?.status !== 'active') return;
+    const beat = () => ChessService.heartbeat(matchId, myColorName).catch(() => {});
+    beat();
+    const id = setInterval(beat, INACTIVITY.HEARTBEAT_SEC * 1000);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') beat();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [amTournamentPlayer, matchId, myColorName, matchData?.status]);
+
+  useEffect(() => {
+    endReportedRef.current = false;
+  }, [matchId]);
+
+  // Reactive Countdown Timer Effect (bajnokságon kívüli játszmák)
+  useEffect(() => {
+    if (isTournamentMatch) return;
     if (!isTimedGame || game.isGameOver() || customWinner) return;
     if (mode === 'friend' && matchData?.status === 'waiting') return;
 
@@ -282,7 +355,7 @@ export default function ChessBoardUI({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isTimedGame, game, customWinner, mode, matchData, matchId, onGameEnd]);
+  }, [isTournamentMatch, isTimedGame, game, customWinner, mode, matchData, matchId, onGameEnd]);
 
   // Reactive Premove Execution Effect: runs as soon as it becomes my turn
   useEffect(() => {
@@ -382,31 +455,43 @@ export default function ChessBoardUI({
       }).catch((e) => console.warn('Failed to load initial match state', e));
     }
 
-    if (mode === 'friend' && matchId) {
+    if (matchId && (mode === 'friend' || isTournamentMatch)) {
       const subscription = ChessService.subscribeToMatch(matchId, (payload) => {
         const data = payload.new as ChessMatch;
         setMatchData(data);
 
-        // Synchronize timers from Firestore
-        if (typeof data.white_time_remaining === 'number') {
-          setWhiteTime(data.white_time_remaining);
-        }
-        if (typeof data.black_time_remaining === 'number') {
-          setBlackTime(data.black_time_remaining);
+        // Synchronize timers from Firestore (bajnokságban a szerveridős óra-effekt számol)
+        if (!isTournamentMatch) {
+          if (typeof data.white_time_remaining === 'number') {
+            setWhiteTime(data.white_time_remaining);
+          }
+          if (typeof data.black_time_remaining === 'number') {
+            setBlackTime(data.black_time_remaining);
+          }
         }
 
-        // Check game end states from Firestore
-        if (data.status === 'finished' && data.winner_id === 'draw') {
-          setGameEndedReason(data.end_reason || 'Döntetlen megegyezéssel 🤝');
-          setCustomWinner('draw');
-          if (onGameEnd) onGameEnd('draw');
-        } else if (data.status === 'finished' && data.winner_id) {
-          const currentUid = auth.currentUser?.uid;
-          const didIWin = data.winner_id === currentUid;
-          const winnerColor = didIWin ? (isWhite ? 'white' : 'black') : (isWhite ? 'black' : 'white');
+        // Check game end states from Firestore.
+        // A győztes színét a játszma saját azonosítóiból számoljuk – NEM abból, hogy „én nyertem-e”
+        // (a nézőknél ez korábban mindig sötétet hozta ki győztesnek).
+        if (data.status === 'finished' && data.winner_id) {
+          const winnerColor: 'white' | 'black' | 'draw' =
+            data.winner_id === 'draw' ? 'draw' : data.winner_id === data.white_id ? 'white' : 'black';
+          const iWon = !isSpectator && winnerColor === (isWhite ? 'white' : 'black');
           setCustomWinner(winnerColor);
-          setGameEndedReason(data.end_reason || (didIWin ? 'Győzelem! Az ellenfél feladta a játszmát.' : 'Az ellenfél győzött.'));
-          if (onGameEnd) onGameEnd(winnerColor);
+          setGameEndedReason(
+            data.end_reason ||
+              (winnerColor === 'draw'
+                ? 'Döntetlen megegyezéssel 🤝'
+                : isSpectator
+                  ? `${winnerColor === 'white' ? 'Világos' : 'Sötét'} győzött.`
+                  : iWon
+                    ? 'Győzelem! Az ellenfél feladta a játszmát.'
+                    : 'Az ellenfél győzött.')
+          );
+          if (!endReportedRef.current) {
+            endReportedRef.current = true;
+            onGameEndRef.current?.(winnerColor, { fromServer: true, reason: data.end_reason || undefined });
+          }
         }
 
         // Draw offer declined notification
@@ -420,6 +505,8 @@ export default function ChessBoardUI({
 
         setGame((current) => {
           if (newFen === current.fen()) return current;
+          // Bajnokságban a helyben már megtett (még mentés alatt álló) lépést ne írja vissza egy régebbi állás
+          if (isTournamentMatch && plyFromFen(newFen) < plyFromFen(current.fen())) return current;
           const newGame = new Chess(newFen);
           setMoveHistory(newGame.history());
           
@@ -441,7 +528,7 @@ export default function ChessBoardUI({
         subscription.unsubscribe();
       };
     }
-  }, [mode, matchId, isWhite, isMyDrawOfferPending, onGameEnd]);
+  }, [mode, matchId, isWhite, isMyDrawOfferPending, isTournamentMatch, isSpectator]);
 
   // AI makes its move
   useEffect(() => {
@@ -840,7 +927,7 @@ export default function ChessBoardUI({
       try {
         await ChessService.offerDraw(matchId, user.uid);
         setIsMyDrawOfferPending(true);
-        toast.info('🤝 Döntetlen ajánlat elküldve az ellenfélnek...');
+        toast.info('🤝 Döntetlen ajánlat elküldve az ellenfélnek...', drawAdvanceText ? { description: drawAdvanceText } : undefined);
       } catch (e) {
         toast.error('Nem sikerült elküldeni a döntetlen ajánlatot.');
       }
@@ -884,7 +971,7 @@ export default function ChessBoardUI({
     }
 
     if (onGameEnd) {
-      onGameEnd(opponentColor);
+      onGameEnd(opponentColor, { reason: `${isWhite ? 'Világos' : 'Sötét'} feladta a játszmát 🏳️` });
     }
   };
 
@@ -1056,6 +1143,91 @@ export default function ChessBoardUI({
   const isOppTurn = !isWhite ? game.turn() === 'w' : game.turn() === 'b';
   const isUserTurn = isWhite ? game.turn() === 'w' : game.turn() === 'b';
 
+  // --- Bajnoki figyelmeztetések (inaktivitás, kilépés, döntetlen esetén ki jut tovább) ---
+  const tournamentActive = isTournamentMatch && matchData?.status === 'active' && !isGameOver;
+  const forfeit = tournamentActive && matchData ? pendingForfeit(matchData, serverNow, botColor) : null;
+  const myIdle =
+    tournamentActive && amTournamentPlayer && matchData && turnFromFen(matchData.fen) === myColorName && plyFromFen(matchData.fen) >= 2
+      ? idleSeconds(matchData, serverNow, myColorName)
+      : 0;
+  const showAreYouThere = myIdle >= INACTIVITY.PROMPT_AFTER_SEC;
+  const areYouThereLeft = Math.max(0, Math.ceil(INACTIVITY.PROMPT_AFTER_SEC + INACTIVITY.PROMPT_GRACE_SEC - myIdle));
+  const myStartWarning =
+    amTournamentPlayer && forfeit?.kind === 'not_started' && forfeit.loser === myColorName && forfeit.secondsLeft <= 60
+      ? Math.max(0, Math.ceil(forfeit.secondsLeft))
+      : null;
+  const oppWarning =
+    amTournamentPlayer && forfeit && forfeit.loser !== myColorName &&
+    forfeit.secondsLeft <= (forfeit.kind === 'not_started' ? 60 : INACTIVITY.PROMPT_GRACE_SEC)
+      ? forfeit
+      : null;
+
+  const drawAdvanceText = useMemo(() => {
+    if (!isTournamentMatch || !matchData || matchData.status !== 'active') return null;
+    const clocks = computeClocks(matchData, serverNow, { frozenColor: botColor });
+    const res = resolveDrawTiebreak({
+      whiteIsBot: botColor === 'white',
+      blackIsBot: botColor === 'black',
+      timed: clocks.timed,
+      whiteTime: clocks.white,
+      blackTime: clocks.black,
+      fen: matchData.fen,
+    });
+    if (!res.winnerColor) return 'Döntetlen esetén most kő-papír-olló döntene a továbbjutásról.';
+    const who = isSpectator
+      ? (res.winnerColor === 'white' ? 'Világos' : 'Sötét')
+      : res.winnerColor === myColorName ? 'Te' : oppDisplayName;
+    return `Döntetlen esetén most ${who} jutna tovább (${res.reason}).`;
+  }, [isTournamentMatch, matchData, serverNow, botColor, isSpectator, myColorName, oppDisplayName]);
+
+  const handleConfirmActive = () => {
+    if (matchId) ChessService.confirmActive(matchId, myColorName).catch(() => toast.error('Nem sikerült jelezni – próbáld újra!'));
+  };
+
+  const renderTournamentAlerts = () => {
+    if (!tournamentActive) return null;
+    return (
+      <>
+        {showAreYouThere && (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="w-full max-w-sm rounded-3xl border-2 border-amber-400 bg-slate-900 p-6 text-center text-white shadow-2xl space-y-4">
+              <div className="text-5xl">🙋</div>
+              <h3 className="text-xl font-black">Itt vagy még?</h3>
+              <p className="text-sm text-slate-300">
+                Már egy perce nem léptél. Kattints a gombra, különben{' '}
+                <strong className="text-amber-300">{areYouThereLeft} mp</strong> múlva elveszíted a játszmát!
+              </p>
+              <Button
+                onClick={handleConfirmActive}
+                className="w-full h-12 rounded-xl text-base font-black bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white"
+              >
+                Itt vagyok, gondolkodom! 🤔
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {(myStartWarning !== null || oppWarning) && (
+          <div className="fixed top-3 left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-2rem)] max-w-md rounded-2xl border-2 border-amber-400 bg-slate-900/95 px-4 py-3 text-center text-sm font-bold text-amber-100 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+            {myStartWarning !== null ? (
+              <>⏱️ Kezdd el a játszmát! Ha {myStartWarning} mp-en belül nem lépsz, elveszíted.</>
+            ) : oppWarning ? (
+              <>
+                ⏳ {oppDisplayName}{' '}
+                {oppWarning.kind === 'abandoned'
+                  ? 'elhagyta a játszmát.'
+                  : oppWarning.kind === 'not_started'
+                    ? 'még nem kezdte el a játszmát.'
+                    : 'nem válaszol.'}{' '}
+                Ha nem tér vissza, <span className="text-emerald-300">{Math.max(0, Math.ceil(oppWarning.secondsLeft))} mp</span> múlva te nyersz!
+              </>
+            ) : null}
+          </div>
+        )}
+      </>
+    );
+  };
+
   const gameOverInfo = useMemo(() => {
     if (!isGameOver) return null;
 
@@ -1072,6 +1244,12 @@ export default function ChessBoardUI({
     let subtitle = gameEndedReason || 'A mérkőzés befejeződött.';
     let badgeColor = 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40';
     let icon = <Flag className="w-4 h-4 text-indigo-400" />;
+
+    if (isSpectator) {
+      const winnerColor = isCheckmate ? (turn === 'b' ? 'white' : 'black') : customWinner;
+      title = isDraw ? 'Döntetlen!' : winnerColor === 'white' ? 'Világos győzött! 🏆' : winnerColor === 'black' ? 'Sötét győzött! 🏆' : 'Játék vége';
+      return { title, subtitle, badgeColor, icon, playerWon: false, isCheckmate, isDraw };
+    }
 
     if (isCheckmate) {
       title = playerWon ? 'Sakk-matt! Győztél! 🏆' : 'Sakk-matt!';
@@ -1091,7 +1269,7 @@ export default function ChessBoardUI({
     }
 
     return { title, subtitle, badgeColor, icon, playerWon, isCheckmate, isDraw };
-  }, [isGameOver, game, customWinner, isWhite, gameEndedReason, mode]);
+  }, [isGameOver, game, customWinner, isWhite, gameEndedReason, mode, isSpectator]);
 
   const renderBoardGameOverPopup = () => {
     if (!isGameOver || !gameOverInfo || isGameOverDismissed) return null;
@@ -1168,6 +1346,7 @@ export default function ChessBoardUI({
   if (isFullscreen) {
     return (
       <div className="fixed inset-0 z-50 w-screen h-screen bg-[#07131f] text-slate-100 flex flex-col justify-between items-center p-2 sm:p-4 select-none overflow-hidden font-sans">
+        {renderTournamentAlerts()}
         {/* Top Minimal Action & Status Bar */}
         <div className="w-full max-w-2xl flex items-center justify-between px-2 py-1 z-20">
           <div className="flex items-center gap-2">
@@ -1471,6 +1650,7 @@ export default function ChessBoardUI({
   // ----------------------------------------------------
   return (
     <div className="flex flex-col lg:flex-row gap-5 w-full max-w-6xl mx-auto items-start justify-center">
+      {renderTournamentAlerts()}
       {/* Board Column */}
       <div className="flex-1 w-full flex flex-col items-center justify-start self-start space-y-3">
         {/* Spectator Alert Banner */}
@@ -1516,6 +1696,11 @@ export default function ChessBoardUI({
                 <div className="text-[11px] text-amber-700 dark:text-amber-300/80">
                   <strong>{oppDisplayName}</strong> döntetlent ajánlott fel.
                 </div>
+                {drawAdvanceText && (
+                  <div className="text-[11px] font-bold text-amber-800 dark:text-amber-200 mt-0.5">
+                    🏆 {drawAdvanceText}
+                  </div>
+                )}
               </div>
             </div>
 

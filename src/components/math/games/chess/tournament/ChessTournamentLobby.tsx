@@ -199,6 +199,22 @@ export default function ChessTournamentLobby({
     }
   };
 
+  // Host: join / leave as a player
+  const [isTogglingHost, setIsTogglingHost] = useState(false);
+  const hostIsPlaying = !!currentTournament?.participants.some(p => p.id === currentUser?.uid);
+  const handleToggleHostPlaying = async () => {
+    if (!currentTournament) return;
+    setIsTogglingHost(true);
+    try {
+      await ChessTournamentService.setHostPlaying(currentTournament.id, !hostIsPlaying);
+      toast.success(hostIsPlaying ? 'Kiszálltál – csak szervező vagy.' : 'Beszálltál játékosként!');
+    } catch (e: any) {
+      toast.error(e?.message || 'Nem sikerült módosítani.');
+    } finally {
+      setIsTogglingHost(false);
+    }
+  };
+
   // Leave / Cancel Room
   const handleLeaveRoom = async () => {
     if (!currentTournament) return;
@@ -376,7 +392,7 @@ export default function ChessTournamentLobby({
                       </div>
 
                       {/* Kick button (only host can kick others) */}
-                      {isHost && !p.is_host && (
+                      {isHost && (
                         <Button
                           size="icon"
                           variant="ghost"
@@ -421,6 +437,18 @@ export default function ChessTournamentLobby({
                 <div className="space-y-3">
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     Mint bajnokság vezető, te indíthatod el a versenyt, amint a diákok beléptek!
+                  </p>
+
+                  <Button
+                    variant="outline"
+                    onClick={handleToggleHostPlaying}
+                    disabled={isTogglingHost || (!hostIsPlaying && currentTournament.participants.length >= currentTournament.max_players)}
+                    className="w-full h-10 rounded-xl text-xs font-bold border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40"
+                  >
+                    {hostIsPlaying ? '🚪 Kiszállok (csak szervezek)' : '♟️ Én is játszom'}
+                  </Button>
+                  <p className="text-[11px] text-slate-400 text-center -mt-1">
+                    {hostIsPlaying ? 'Most játékosként is benne vagy a sorsolásban.' : 'Most csak szervező vagy, nem kerülsz be a sorsolásba.'}
                   </p>
 
                   <Button

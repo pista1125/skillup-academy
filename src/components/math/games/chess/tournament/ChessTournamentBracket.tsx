@@ -26,6 +26,8 @@ import {
 } from '@/lib/chess/ChessTournamentService';
 import { auth } from '@/lib/firebase';
 import { TOURNAMENT_BOT_DIFFICULTY } from '@/lib/chess/ChessAI';
+import ChessRpsPanel from './ChessRpsPanel';
+import { useTournamentReferee } from './useTournamentReferee';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -160,38 +162,45 @@ export default function ChessTournamentBracket({
     );
   };
 
-  // If Bot vs Bot in active round, auto-simulate
+  // Játékvezető: a szervezőnél minden meccsre, a játékosnál a saját meccsére
+  const myNodeInRound = currentRoundMatches.find(m => m.player1?.id === currentUid || m.player2?.id === currentUid);
+  useTournamentReferee(tournament, isHost || !!myNodeInRound, isHost ? undefined : myNodeInRound?.id);
+
+  // Robot–robot meccsek szimulálása (a szervező gépén, egymás után, tranzakcióban)
+  const botNodeKey = currentRoundMatches
+    .filter(m => m.status === 'in_progress' && m.player1?.is_bot && m.player2?.is_bot && !m.winner_id)
+    .map(m => m.id)
+    .join(',');
   useEffect(() => {
-    if (!isHost || tournament.status !== 'in_progress') return;
+    if (!isHost || tournament.status !== 'in_progress' || !botNodeKey) return;
+    const timer = setTimeout(async () => {
+      for (const nodeId of botNodeKey.split(',')) {
+        try {
+          await ChessTournamentService.resolveBotMatch(tournament.id, nodeId);
+        } catch (e) {
+          console.warn('Robotmeccs szimulálása sikertelen', e);
+        }
+      }
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [isHost, tournament.id, tournament.status, botNodeKey]);
 
-    const botMatches = currentRoundMatches.filter(m => 
-      m.status === 'in_progress' && 
-      m.player1?.is_bot && 
-      m.player2?.is_bot &&
-      !m.winner_id
-    );
-
-    if (botMatches.length > 0) {
-      const timer = setTimeout(() => {
-        botMatches.forEach((botMatch) => {
-          if (botMatch.player1 && botMatch.player2) {
-            const p1Diff = Math.max(1, botMatch.player1.bot_difficulty || 1);
-            const p2Diff = Math.max(1, botMatch.player2.bot_difficulty || 1);
-            const p1Chance = p1Diff / (p1Diff + p2Diff);
-            const p1Wins = Math.random() < p1Chance;
-            const winnerId = p1Wins ? botMatch.player1.id : botMatch.player2.id;
-            ChessTournamentService.reportMatchResult(
-              tournament.id, 
-              botMatch.id, 
-              winnerId, 
-              `${p1Wins ? botMatch.player1.name : botMatch.player2.name} győzött 🤖🏆`
-            );
-          }
-        });
-      }, 2500);
-      return () => clearTimeout(timer);
+  // Tanári döntés
+  const [overrideNodeId, setOverrideNodeId] = useState<string | null>(null);
+  const handleOverride = async (node: TournamentMatchNode, winner: TournamentParticipant) => {
+    if (!confirm(`Biztosan ${winner.name} jusson tovább ebből a meccsből?`)) return;
+    try {
+      await ChessTournamentService.overrideResult(tournament.id, node.id, winner.id);
+      toast.success(`Tanári döntés rögzítve: ${winner.name} jut tovább.`);
+      setOverrideNodeId(null);
+    } catch (e: any) {
+      toast.error(e?.message || 'Nem sikerült rögzíteni a döntést.');
     }
-  }, [tournament, isHost, currentRoundMatches]);
+  };
+
+  const myTiebreakNode = currentRoundMatches.find(m =>
+    m.status === 'tiebreak' && (m.player1?.id === currentUid || m.player2?.id === currentUid)
+  );
 
   return (
     <div className="w-full space-y-4 animate-in fade-in zoom-in-95 duration-300">
@@ -276,6 +285,13 @@ export default function ChessTournamentBracket({
         </div>
       )}
 
+      {/* KŐ-PAPÍR-OLLÓ A TOVÁBBJUTÁSÉRT */}
+      {myTiebreakNode && tournament.status === 'in_progress' && (
+        <div className="flex justify-center animate-in slide-in-from-top-4 duration-300">
+          <ChessRpsPanel tournament={tournament} node={myTiebreakNode} />
+        </div>
+      )}
+
       {/* INTERACTIVE TOURNAMENT BRACKET TREE */}
       <div className="w-full overflow-x-auto pb-4">
         <div className="min-w-[700px] flex items-stretch gap-4 md:gap-8 justify-center py-2 px-1">
@@ -336,6 +352,12 @@ export default function ChessTournamentBracket({
                             <Badge className="bg-emerald-500 text-white text-[9px] px-1.5 py-0 font-bold animate-pulse flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-white" /> Élőben
                             </Badge>
+                          ) : matchNode.status === 'tiebreak' ? (
+                            <Badge className="bg-amber-500 text-slate-950 text-[9px] px-1.5 py-0 font-bold animate-pulse">
+                              ✊✋✌️ Kő-papír-olló
+                            </Badge>
+                          ) : matchNode.status === 'in_progress' && matchNode.player1?.is_bot && matchNode.player2?.is_bot ? (
+                            <span className="text-slate-400 font-semibold">🤖 Gépi meccs…</span>
                           ) : isDone ? (
                             <span className="text-amber-600 dark:text-amber-400 font-bold font-mono">
                               {matchNode.score || 'Véget ért'}
@@ -359,6 +381,49 @@ export default function ChessTournamentBracket({
                           p2Winner, 
                           matchNode.player2?.id === currentUid,
                           matchNode.white_id === matchNode.player2?.id
+                        )}
+
+                        {/* Miért ez lett az eredmény? */}
+                        {(isDone || matchNode.status === 'tiebreak') && matchNode.end_reason && (
+                          <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400 px-0.5">
+                            {matchNode.decided_by_host && '⚖️ '}{matchNode.end_reason}
+                          </p>
+                        )}
+
+                        {/* Tanári döntés (szervező) */}
+                        {isHost && matchNode.player1 && matchNode.player2 && matchNode.status !== 'pending' && (
+                          overrideNodeId === matchNode.id ? (
+                            <div className="pt-1 border-t border-slate-100 dark:border-slate-800 space-y-1">
+                              <p className="text-[10px] font-bold text-slate-500">Ki jusson tovább?</p>
+                              {[matchNode.player1, matchNode.player2].map((p) => (
+                                <Button
+                                  key={p.id}
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleOverride(matchNode, p)}
+                                  className="w-full h-7 rounded-xl text-[11px] font-bold"
+                                >
+                                  {p.name}
+                                </Button>
+                              ))}
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => setOverrideNodeId(null)}
+                                className="w-full h-6 rounded-xl text-[10px] text-slate-400"
+                              >
+                                Mégse
+                              </Button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setOverrideNodeId(matchNode.id)}
+                              className="self-end text-[10px] font-bold text-slate-400 hover:text-indigo-500"
+                              title="Tanári döntés: te jelölöd ki a továbbjutót"
+                            >
+                              ⚖️ Tanári döntés
+                            </button>
+                          )
                         )}
 
                         {/* Action Buttons for this match */}

@@ -15,7 +15,8 @@ import ChessLobby from "./ChessLobby";
 import ChessTournamentBracket from "./tournament/ChessTournamentBracket";
 import ChessTournamentPodium from "./tournament/ChessTournamentPodium";
 import { ChessService } from '@/lib/chess/ChessService';
-import { ChessTournament, ChessTournamentService, resolveDrawWinner } from '@/lib/chess/ChessTournamentService';
+import { ChessTournament, ChessTournamentService } from '@/lib/chess/ChessTournamentService';
+import ChessRpsPanel from './tournament/ChessRpsPanel';
 import { Chess } from 'chess.js';
 import { auth } from '@/lib/firebase';
 import { toast } from 'sonner';
@@ -156,8 +157,35 @@ export default function ChessGame({ onBack }: ChessGameProps) {
     setGameState('playing');
   };
 
+  const isTournamentGame = !!(activeTournament && tournamentMatchNodeId && matchOptions.matchId);
+  // A bajnoki lépéseket sorban küldjük (robot ellen a diák és a robot lépése gyorsan követi egymást)
+  const moveQueueRef = useRef<Promise<unknown>>(Promise.resolve());
+
+  /** A bajnoki eredményt mindig a játszma dokumentumából veszi át (idempotens). */
+  const syncTournamentResult = async () => {
+    if (!activeTournament || !tournamentMatchNodeId) return;
+    try {
+      await ChessTournamentService.syncMatchResult(activeTournament.id, tournamentMatchNodeId);
+    } catch (e) {
+      console.error('Failed to sync tournament result', e);
+    }
+  };
+
   // Move sync & checkmate handling
   const handleMove = async (fen: string, move: string, whiteTime?: number, blackTime?: number) => {
+    if (isTournamentGame && matchOptions.matchId) {
+      if (isSpectator) return;
+      const matchId = matchOptions.matchId;
+      moveQueueRef.current = moveQueueRef.current
+        .then(async () => {
+          const result = await ChessService.submitMove(matchId, fen, move);
+          if (result === 'rejected') console.warn('A lépést a szerver nem fogadta el (lezárt játszma vagy elavult állás).');
+          if (result === 'finished') await syncTournamentResult();
+        })
+        .catch((e) => console.error('Failed to sync move', e));
+      return;
+    }
+
     if (matchOptions.matchId) {
       try {
         const testGame = new Chess(fen);
@@ -170,13 +198,7 @@ export default function ChessGame({ onBack }: ChessGameProps) {
             status = 'finished';
             const turn = testGame.turn(); // 'w' or 'b'
             const winnerIsWhite = turn === 'b';
-            const currentRound = activeTournament?.rounds[(activeTournament?.current_round || 1) - 1];
-            const matchNode = currentRound?.matches.find(m => m.id === tournamentMatchNodeId);
-            if (matchNode) {
-              winnerId = (winnerIsWhite ? matchNode.white_id : matchNode.black_id) || null;
-            } else {
-              winnerId = (winnerIsWhite === matchOptions.isWhite) ? auth.currentUser?.uid || null : null;
-            }
+            winnerId = (winnerIsWhite === matchOptions.isWhite) ? auth.currentUser?.uid || null : null;
             endReason = 'Sakk-matt!';
           } else if (testGame.isDraw() || testGame.isStalemate()) {
             status = 'finished';
@@ -189,23 +211,6 @@ export default function ChessGame({ onBack }: ChessGameProps) {
 
         if (status === 'finished' && winnerId) {
           await ChessService.finishMatchOnTimeout(matchOptions.matchId, winnerId, endReason || 'Játszma befejezve');
-
-          // If this is a tournament match, report the winner!
-          if (activeTournament && tournamentMatchNodeId) {
-            // Döntetlennél is legyen továbbjutó (robot ellen a diák)
-            let tournamentWinnerId: string | null = winnerId;
-            if (winnerId === 'draw') {
-              const round = activeTournament.rounds[(activeTournament.current_round || 1) - 1];
-              const node = round?.matches.find(m => m.id === tournamentMatchNodeId);
-              tournamentWinnerId = node ? resolveDrawWinner(node) : null;
-            }
-            if (tournamentWinnerId) await ChessTournamentService.reportMatchResult(
-              activeTournament.id,
-              tournamentMatchNodeId,
-              tournamentWinnerId,
-              endReason || 'Játszma befejezve'
-            );
-          }
         }
       } catch (e) {
         console.error('Failed to sync move', e);
@@ -213,31 +218,39 @@ export default function ChessGame({ onBack }: ChessGameProps) {
     }
   };
 
-  // Game End callback from UI
-  const handleGameEnd = async (winnerColor: 'white' | 'black' | 'draw') => {
-    if (activeTournament && tournamentMatchNodeId && matchOptions.matchId) {
-      try {
-        const currentRound = activeTournament.rounds[activeTournament.current_round - 1];
-        const matchNode = currentRound?.matches.find(m => m.id === tournamentMatchNodeId);
-        if (matchNode) {
-          const winnerId = winnerColor === 'draw'
-            ? resolveDrawWinner(matchNode)
-            : (winnerColor === 'white' ? matchNode.white_id : matchNode.black_id) || matchNode.player1?.id;
-          
-          if (winnerId) {
-            await ChessTournamentService.reportMatchResult(
-              activeTournament.id,
-              tournamentMatchNodeId,
-              winnerId,
-              winnerColor === 'draw' ? 'Döntetlen / Továbbjutás' : 'Játszma lezárult'
-            );
-          }
-        }
-      } catch (e) {
-        console.error('Failed to report tournament game end', e);
+  /**
+   * Játszma vége. Helyi esemény (feladás, robot elfogadta a döntetlent, robot mattot adott)
+   * esetén a játékos lezárja a játszmát; a bajnoki továbbjutást ezután MINDIG a játszma
+   * dokumentumából számoljuk – a néző gépe így már nem tud rossz győztest bejelenteni.
+   */
+  const handleGameEnd = async (
+    winnerColor: 'white' | 'black' | 'draw',
+    opts?: { reason?: string; fromServer?: boolean }
+  ) => {
+    if (!isTournamentGame || !matchOptions.matchId) return;
+    try {
+      if (!opts?.fromServer && !isSpectator) {
+        await moveQueueRef.current;
+        await ChessService.finishMatchWith(
+          matchOptions.matchId,
+          winnerColor,
+          opts?.reason || (winnerColor === 'draw' ? 'Döntetlen 🤝' : 'Játszma lezárult')
+        );
       }
+      await syncTournamentResult();
+    } catch (e) {
+      console.error('Failed to report tournament game end', e);
     }
   };
+
+  const currentNode = activeTournament && tournamentMatchNodeId
+    ? activeTournament.rounds.flatMap((r) => r.matches).find((m) => m.id === tournamentMatchNodeId)
+    : undefined;
+  const currentUid = auth.currentUser?.uid;
+  const showRpsOverGame =
+    gameState === 'playing' &&
+    currentNode?.status === 'tiebreak' &&
+    (currentNode.player1?.id === currentUid || currentNode.player2?.id === currentUid);
 
   // Header back button text
   const getBackButtonLabel = () => {
@@ -362,7 +375,12 @@ export default function ChessGame({ onBack }: ChessGameProps) {
           "animate-in fade-in duration-300 w-full flex-1 flex flex-col justify-center items-center",
           isPlayFullscreen ? "h-full w-full" : "justify-start"
         )}>
-          <ChessBoardUI 
+          {showRpsOverGame && activeTournament && currentNode && (
+            <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+              <ChessRpsPanel tournament={activeTournament} node={currentNode} />
+            </div>
+          )}
+          <ChessBoardUI
             mode={matchOptions.mode}
             difficulty={matchOptions.difficulty}
             matchId={matchOptions.matchId}

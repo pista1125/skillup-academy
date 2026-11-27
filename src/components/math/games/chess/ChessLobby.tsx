@@ -30,7 +30,7 @@ import { ChessTournament } from '@/lib/chess/ChessTournamentService';
 import ChessTournamentLobby from './tournament/ChessTournamentLobby';
 import { useAuth } from '@/contexts/AuthContext';
 import { auth, db } from '@/lib/firebase';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -97,20 +97,29 @@ export default function ChessLobby({ onStartGame, onOpenTournament, initialTab =
   const myDisplayName = authProfile?.full_name || currentUser?.displayName || 'Te';
 
   useEffect(() => {
+    // Csak a saját játszmák változását figyeljük (nem a teljes gyűjteményt) – a bajnoki
+    // játszmák jelenlét-jelei így nem töltik újra mindenki lobbiját.
+    let matchUnsubs: Array<() => void> = [];
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      matchUnsubs.forEach((u) => u());
+      matchUnsubs = [];
       if (user) {
         setCurrentUser(user);
         loadFriendsData();
+        const uids = ChessService.getUserUids(user);
+        matchUnsubs = [
+          onSnapshot(query(collection(db, 'chess_matches'), where('white_id', 'in', uids)), () => loadMatchesData()),
+          onSnapshot(query(collection(db, 'chess_matches'), where('black_id', 'in', uids)), () => loadMatchesData()),
+        ];
       }
     });
 
     const unsubscribeFriends = onSnapshot(collection(db, 'friends'), () => loadFriendsData());
-    const unsubscribeMatches = onSnapshot(collection(db, 'chess_matches'), () => loadMatchesData());
 
     return () => {
       unsubscribeAuth();
       unsubscribeFriends();
-      unsubscribeMatches();
+      matchUnsubs.forEach((u) => u());
     };
   }, []);
 

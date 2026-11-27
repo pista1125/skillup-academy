@@ -10,8 +10,23 @@ import {
   deleteDoc,
   query, 
   where, 
-  onSnapshot 
+  onSnapshot,
+  runTransaction,
+  serverTimestamp
 } from 'firebase/firestore';
+import { Chess } from 'chess.js';
+import {
+  ChessColor,
+  RefereeVerdict,
+  botColorOf,
+  computeClocks,
+  evaluateReferee,
+  plyFromFen,
+  turnFromFen,
+  otherColor,
+  canMateFromFen
+} from './chessRules';
+import { ServerClock } from './serverClock';
 
 export interface ChessProfile {
   id: string;
@@ -37,6 +52,14 @@ export interface ChessMatch {
   black_time_remaining?: number;
   last_move_timestamp?: number | string;
   end_reason?: string | null;
+  /** Bajnoki játszmák: az aktuális lépés kezdete (szerveridő). */
+  turn_started_at?: unknown;
+  white_seen_at?: unknown;
+  black_seen_at?: unknown;
+  white_active_at?: unknown;
+  black_active_at?: unknown;
+  tournament_id?: string;
+  tournament_match_node_id?: string;
   created_at: string;
   updated_at: string;
   white_profile?: ChessProfile;
@@ -546,12 +569,7 @@ export const ChessService = {
 
   async respondDraw(matchId: string, accept: boolean) {
     if (accept) {
-      await updateDoc(doc(db, 'chess_matches', matchId), {
-        status: 'finished',
-        winner_id: 'draw',
-        draw_offered_by: null,
-        updated_at: new Date().toISOString(),
-      });
+      await this.finishMatchWith(matchId, 'draw', 'Döntetlen megegyezéssel 🤝');
     } else {
       await updateDoc(doc(db, 'chess_matches', matchId), {
         draw_offered_by: null,
@@ -568,10 +586,151 @@ export const ChessService = {
   },
 
   async resignMatch(matchId: string, winnerId: string) {
+    await this.finishMatch(matchId, (m) => ({
+      result: winnerId === m.white_id ? 'white' : 'black',
+      reason: 'Az ellenfél feladta a játszmát. 🏳️',
+    }));
+  },
+
+  // -------------------------------------------------------------------------
+  // Bajnoki játszmák: tranzakciós lépés / lezárás, szerveridős óra, jelenlét
+  // -------------------------------------------------------------------------
+
+  /**
+   * Lépés rögzítése tranzakcióban. A lépő fél órájából levonja a gondolkodási időt
+   * (szerveridő szerint), és ha a lépés mattot/döntetlent ad, ugyanitt lezárja a játszmát.
+   * Elavult/duplikált lépést és lezárt játszmára érkező lépést elutasít.
+   */
+  async submitMove(matchId: string, fen: string, move: string): Promise<'ok' | 'finished' | 'rejected'> {
+    await ServerClock.ensureSynced();
+    const ref = doc(db, 'chess_matches', matchId);
+    return runTransaction(db, async (tx) => {
+      const snap = await tx.get(ref);
+      if (!snap.exists()) return 'rejected';
+      const m = snap.data() as ChessMatch;
+      if (m.status !== 'active') return 'rejected';
+      if (plyFromFen(fen) !== plyFromFen(m.fen) + 1) return 'rejected';
+
+      const mover = turnFromFen(m.fen);
+      const botColor = botColorOf(m);
+      const clocks = computeClocks(m, ServerClock.now(), { frozenColor: botColor });
+      const update: Record<string, unknown> = {
+        updated_at: new Date().toISOString(),
+      };
+
+      if (clocks.timed && mover !== botColor && clocks[mover] <= 0) {
+        // A zászló a lépés előtt leesett – a lépés már nem érvényes.
+        const opp = otherColor(mover);
+        const canMate = canMateFromFen(m.fen, opp);
+        Object.assign(update, {
+          status: 'finished',
+          winner_id: canMate ? (opp === 'white' ? m.white_id : m.black_id) : 'draw',
+          end_reason: canMate ? 'Lejárt az idő! ⏱️' : 'Lejárt az idő, de nincs mattadáshoz elég anyag (Döntetlen 🤝)',
+          [`${mover}_time_remaining`]: 0,
+          draw_offered_by: null,
+        });
+        tx.update(ref, update);
+        return 'finished';
+      }
+
+      Object.assign(update, {
+        fen,
+        last_move: move,
+        last_move_timestamp: Date.now(),
+        turn_started_at: serverTimestamp(),
+        [`${mover}_active_at`]: serverTimestamp(),
+      });
+      if (clocks.timed) update[`${mover}_time_remaining`] = Math.round(clocks[mover] * 10) / 10;
+
+      const g = new Chess(fen);
+      let result: 'ok' | 'finished' = 'ok';
+      if (g.isCheckmate()) {
+        Object.assign(update, {
+          status: 'finished',
+          winner_id: mover === 'white' ? m.white_id : m.black_id,
+          end_reason: 'Sakk-matt! ♚',
+          draw_offered_by: null,
+        });
+        result = 'finished';
+      } else if (g.isGameOver()) {
+        Object.assign(update, {
+          status: 'finished',
+          winner_id: 'draw',
+          end_reason: g.isStalemate()
+            ? 'Patt (Döntetlen) 🤝'
+            : g.isInsufficientMaterial()
+              ? 'Nincs elég anyag a mattadáshoz (Döntetlen) 🤝'
+              : g.isThreefoldRepetition()
+                ? 'Háromszori ismétlés (Döntetlen) 🤝'
+                : 'Döntetlen 🤝',
+          draw_offered_by: null,
+        });
+        result = 'finished';
+      }
+      tx.update(ref, update);
+      return result;
+    });
+  },
+
+  /**
+   * Játszma lezárása tranzakcióban. A `decide` a friss dokumentumból dönt (null → nincs teendő).
+   * Már lezárt játszmát nem ír felül. Lezáráskor „befagyasztja” az órákat (szerveridő szerint),
+   * hogy a döntetlen-továbbjutás a valós hátralévő időt lássa.
+   */
+  async finishMatch(
+    matchId: string,
+    decide: (m: ChessMatch) => { result: ChessColor | 'draw'; reason: string } | null
+  ): Promise<'finished' | 'already' | 'skipped'> {
+    await ServerClock.ensureSynced();
+    const ref = doc(db, 'chess_matches', matchId);
+    return runTransaction(db, async (tx) => {
+      const snap = await tx.get(ref);
+      if (!snap.exists()) return 'skipped';
+      const m = { id: snap.id, ...snap.data() } as ChessMatch;
+      if (m.status === 'finished') return 'already';
+      const verdict = decide(m);
+      if (!verdict) return 'skipped';
+
+      const update: Record<string, unknown> = {
+        status: 'finished',
+        winner_id: verdict.result === 'draw' ? 'draw' : verdict.result === 'white' ? m.white_id : m.black_id,
+        end_reason: verdict.reason,
+        draw_offered_by: null,
+        updated_at: new Date().toISOString(),
+      };
+      if (m.turn_started_at && m.status === 'active') {
+        const clocks = computeClocks(m, ServerClock.now(), { frozenColor: botColorOf(m) });
+        if (clocks.timed) {
+          update.white_time_remaining = Math.round(clocks.white * 10) / 10;
+          update.black_time_remaining = Math.round(clocks.black * 10) / 10;
+        }
+      }
+      tx.update(ref, update);
+      return 'finished';
+    });
+  },
+
+  finishMatchWith(matchId: string, result: ChessColor | 'draw', reason: string) {
+    return this.finishMatch(matchId, () => ({ result, reason }));
+  },
+
+  /** Játékvezetői lezárás: csak akkor zár, ha a friss adatok szerint is indokolt. */
+  claimReferee(matchId: string): Promise<'finished' | 'already' | 'skipped'> {
+    return this.finishMatch(matchId, (m): RefereeVerdict | null =>
+      ServerClock.isSynced() ? evaluateReferee(m, ServerClock.now()) : null
+    );
+  },
+
+  /** Jelenlét-jel (bajnoki játszmában ~10 mp-enként). */
+  async heartbeat(matchId: string, color: ChessColor) {
+    await updateDoc(doc(db, 'chess_matches', matchId), { [`${color}_seen_at`]: serverTimestamp() });
+  },
+
+  /** „Itt vagyok!” – az „Itt vagy még?” kérdésre adott válasz. */
+  async confirmActive(matchId: string, color: ChessColor) {
     await updateDoc(doc(db, 'chess_matches', matchId), {
-      status: 'finished',
-      winner_id: winnerId,
-      updated_at: new Date().toISOString(),
+      [`${color}_active_at`]: serverTimestamp(),
+      [`${color}_seen_at`]: serverTimestamp(),
     });
   },
 
