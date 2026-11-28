@@ -16,7 +16,7 @@
  *   4. a `.build/idozites.txt` + `forgatokonyv.md` alapján elkészíti a fejezetlistát,
  *   5. a fájlokat a `<altéma>/feltoltes/` mappába teszi,
  *   6. beírja / frissíti a `src/data/lessonVideos.json` nyilvántartást.
- * A feltöltést a Firebase Console-on kell elvégezni (a szkript kiírja a pontos célmappát).
+ * Feltöltés: scripts/video/upload-to-storage.mjs — a szkript a végén kiírja a kész parancsot.
  *
  * A `--lesson` értéke a lecke TheoryTemplate-jének `documentId`-ja (a LogicTheory.tsx-ben pl.
  * documentId="grade-8-szamok-betuk-logika-feladatok").
@@ -161,9 +161,7 @@ console.log(`✓ nyilvántartás frissítve: ${path.relative(ROOT, REGISTRY)} �
 
 const mb = (f) => (fs.statSync(f).size / 1024 / 1024).toFixed(1);
 console.log(`
-Feltöltés (Firebase Console → Storage → diakzona.firebasestorage.app):
-  célmappa:  ${storageDir}/
-  fájlok:    ${outVideo}  (${mb(outVideo)} MB)
-             ${outPoster}  (${mb(outPoster)} MB)
-Utána: commit + deploy, és a videó megjelenik a leckénél.
+Feltöltés (${mb(outVideo)} MB videó + borítókép → ${storageDir}/):
+  node scripts/video/upload-to-storage.mjs "${outPoster}" ${storageDir}/${id}.jpg "${outVideo}" ${storageDir}/${id}.mp4
+Utána: <LessonVideoCards lessonId="${lesson}" /> a GradeNView-ba, commit + push.
 `);
