@@ -42,6 +42,7 @@ import {
 } from 'lucide-react';
 
 import { useQuizProgress } from '@/hooks/useQuizProgress';
+import { LessonVideoCards } from '@/components/video/LessonVideos';
 
 export const Grade8View: React.FC<GradeViewProps> = ({
   topicId,
@@ -79,6 +80,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   color="indigo"
                   {...getTopicProgress('g8-logic')}
                 />
+                <LessonVideoCards lessonId="grade-8-szamok-betuk-logika-feladatok" />
               </div>
             </section>
           )}

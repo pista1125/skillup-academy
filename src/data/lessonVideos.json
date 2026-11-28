@@ -1,0 +1,74 @@
+{
+  "grade-8-szamok-betuk-logika-feladatok": [
+    {
+      "id": "8_01_logikai_feladatok",
+      "kind": "magyarazo",
+      "title": "Logikai feladatok",
+      "video": "videok/8_osztaly/8_01_logikai_feladatok.mp4",
+      "poster": "videok/8_osztaly/8_01_logikai_feladatok.jpg",
+      "duration": 742.7,
+      "chapters": [
+        {
+          "start": 0,
+          "title": "Bevezetés"
+        },
+        {
+          "start": 45.5,
+          "title": "Mi az a matematikai állítás?"
+        },
+        {
+          "start": 83.3,
+          "title": "Állítás vagy nem?"
+        },
+        {
+          "start": 160.5,
+          "title": "Állítások tagadása"
+        },
+        {
+          "start": 226.2,
+          "title": "A „minden” és a „van olyan” tagadása"
+        },
+        {
+          "start": 296.4,
+          "title": "Összetett állítások"
+        },
+        {
+          "start": 347.8,
+          "title": "Az igazságtáblázat"
+        },
+        {
+          "start": 380.5,
+          "title": "A skatulya-elv"
+        },
+        {
+          "start": 428.2,
+          "title": "13 diák, 12 hónap"
+        },
+        {
+          "start": 477.4,
+          "title": "Hét dobás egy kockával"
+        },
+        {
+          "start": 513,
+          "title": "Zoknik a sötétben"
+        },
+        {
+          "start": 555.5,
+          "title": "A legrosszabb eset módszere"
+        },
+        {
+          "start": 581.9,
+          "title": "Húzzuk ki a golyókat!"
+        },
+        {
+          "start": 617.7,
+          "title": "Lovagok és lókötők szigete"
+        },
+        {
+          "start": 681.2,
+          "title": "Mit tanultunk ma?"
+        }
+      ]
+    }
+  ]
+}

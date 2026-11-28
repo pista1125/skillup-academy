@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LessonVideoBanner } from '@/components/video/LessonVideos';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -615,6 +616,8 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
           </Button>
         </div>
       </div>
+
+      <LessonVideoBanner lessonId={documentId} />
 
       {/* Main Printable Document Container */}
       <div

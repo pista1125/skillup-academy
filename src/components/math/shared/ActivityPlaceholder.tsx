@@ -68,6 +68,7 @@ export function ActivityPlaceholder({
         "Kvíz": "bg-amber-500 text-white",
         "Tananyag": "bg-blue-600 text-white",
         "Mese": "bg-rose-500 text-white",
+        "Videó": "bg-red-600 text-white",
     };
 
     const typeLabel: Record<string, string> = {
@@ -80,6 +81,7 @@ export function ActivityPlaceholder({
         "Kvíz": "KVÍZ »",
         "Tananyag": "MEGNYITÁS »",
         "Mese": "MESÉLJ »",
+        "Videó": "LEJÁTSZÁS »",
     };
 
     const isQuizOrTest = type === 'Kvíz' || type === 'Teszt';
